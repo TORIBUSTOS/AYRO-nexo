@@ -676,7 +676,7 @@ git commit -m "feat: add AYRO NEXO local business rules"
 **Files:**
 - Create: `src/domain/selectors.ts`
 
-- [ ] **Step 1: Add selectors**
+- [x] **Step 1: Add selectors**
 
 Create `src/domain/selectors.ts`:
 
@@ -792,7 +792,7 @@ export function getHistorialReciente(historial: EventoHistorial[]) {
 }
 ```
 
-- [ ] **Step 2: Verify selectors compile**
+- [x] **Step 2: Verify selectors compile**
 
 Run:
 
@@ -802,7 +802,7 @@ npm run build
 
 Expected: build passes with no TypeScript errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/domain/selectors.ts
