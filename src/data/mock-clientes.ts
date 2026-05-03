@@ -1,0 +1,49 @@
+import type { Cliente } from "@/domain/types"
+
+export const clientes: Cliente[] = [
+  {
+    id: "cli_001",
+    nombre: "Bazar Norte",
+    estado: "activo",
+    responsable: "Eli",
+    datosOperativos: "Compra semanal con foco en volumen.",
+    descuentoPermitido: 10,
+    plazoPermitidoDias: 30,
+  },
+  {
+    id: "cli_002",
+    nombre: "Supermercado Sur",
+    estado: "activo",
+    responsable: "Sofia",
+    datosOperativos: "Cliente recurrente con entregas coordinadas.",
+    descuentoPermitido: 8,
+    plazoPermitidoDias: 21,
+  },
+  {
+    id: "cli_003",
+    nombre: "Mayorista Centro",
+    estado: "observado",
+    responsable: "Eli",
+    datosOperativos: "Alta rotacion, condiciones pendientes de definir.",
+    descuentoPermitido: null,
+    plazoPermitidoDias: null,
+  },
+  {
+    id: "cli_004",
+    nombre: "Distribuidora Norte",
+    estado: "activo",
+    responsable: "Martin",
+    datosOperativos: "Pedido mayorista con retiro coordinado.",
+    descuentoPermitido: 12,
+    plazoPermitidoDias: 45,
+  },
+  {
+    id: "cli_005",
+    nombre: "Kiosco La Terminal",
+    estado: "activo",
+    responsable: "Sofia",
+    datosOperativos: "Pedidos chicos y frecuentes.",
+    descuentoPermitido: 5,
+    plazoPermitidoDias: 15,
+  },
+]
