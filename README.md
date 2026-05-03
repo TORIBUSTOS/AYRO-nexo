@@ -17,6 +17,7 @@ AYRO NEXO busca ordenar la operacion comercial desde cliente, pedido y negociaci
 - Selectors del dashboard creados en `src/domain/selectors.ts`.
 - Configuraciones base del sistema creadas en `src/domain/settings.ts` y `src/domain/ui-config.ts`.
 - Dashboard conectado a datos, selectors y configuracion reutilizable.
+- QA visual desktop/mobile completado contra el blueprint.
 
 ## Estrategia MVP
 
@@ -68,7 +69,7 @@ Esto incluye labels, colores, prioridades, severidades, responsables, umbrales o
 
 ## Workflow actual
 
-Sprint 1: Frontend operativo mock.
+Sprint 1: Frontend operativo mock validado.
 
 Completado:
 
@@ -78,10 +79,7 @@ Completado:
 4. Selectors del dashboard.
 5. Configuracion base del sistema y UI.
 6. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
-
-Pendiente:
-
-1. QA visual y validacion contra blueprint.
+7. QA visual desktop/mobile, consola, lint y build.
 
 ## Comandos
 

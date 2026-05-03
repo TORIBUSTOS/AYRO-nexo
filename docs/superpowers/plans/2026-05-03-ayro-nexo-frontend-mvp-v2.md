@@ -1191,7 +1191,7 @@ git commit -m "feat: build AYRO NEXO dashboard v2 data flow"
 - Modify only if needed: `src/app/page.tsx`
 - Keep: `BLUEPRINT.md`
 
-- [ ] **Step 1: Start local dev server**
+- [x] **Step 1: Start local dev server**
 
 Run:
 
@@ -1201,7 +1201,9 @@ npm run dev -- --port 3000
 
 Expected: app starts at `http://localhost:3000`.
 
-- [ ] **Step 2: Validate MVP acceptance manually**
+Result: `http://localhost:3000` responded `200`.
+
+- [x] **Step 2: Validate MVP acceptance manually**
 
 Open `http://localhost:3000` and confirm:
 
@@ -1214,7 +1216,14 @@ Open `http://localhost:3000` and confirm:
 - no text overlaps on desktop width;
 - mobile layout stacks without horizontal overflow.
 
-- [ ] **Step 3: Re-run final checks**
+Result:
+
+- desktop snapshot reviewed with Playwright CLI;
+- mobile viewport `390x1200` reviewed with no horizontal overflow;
+- browser console checked with `0` errors and `0` warnings;
+- no visual fixes were required.
+
+- [x] **Step 3: Re-run final checks**
 
 Run:
 
@@ -1232,7 +1241,14 @@ Expected:
 - `git diff --check` has no output;
 - only intended files are modified or untracked.
 
-- [ ] **Step 4: Commit final visual fixes if any**
+Result:
+
+- `npm run lint` passed;
+- `npm run build` passed;
+- `git diff --check` passed;
+- only documentation closure files were modified.
+
+- [x] **Step 4: Commit final visual fixes if any**
 
 If visual fixes were needed:
 
@@ -1242,6 +1258,8 @@ git commit -m "fix: polish AYRO NEXO dashboard v2 layout"
 ```
 
 If no fixes were needed, do not create an empty commit.
+
+Result: no visual fixes were needed.
 
 ---
 
