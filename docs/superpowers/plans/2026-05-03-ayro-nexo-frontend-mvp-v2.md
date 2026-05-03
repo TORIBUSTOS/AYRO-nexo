@@ -30,7 +30,7 @@
 **Files:**
 - Create: `src/domain/types.ts`
 
-- [ ] **Step 1: Create domain type file**
+- [x] **Step 1: Create domain type file**
 
 Add `src/domain/types.ts`:
 
@@ -130,7 +130,7 @@ export type AyroDataset = {
 }
 ```
 
-- [ ] **Step 2: Verify types compile**
+- [x] **Step 2: Verify types compile**
 
 Run:
 
@@ -140,7 +140,7 @@ npm run build
 
 Expected: build passes with no TypeScript errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/domain/types.ts
@@ -158,7 +158,7 @@ git commit -m "feat: add AYRO NEXO domain types"
 - Create: `src/data/mock-historial.ts`
 - Create: `src/data/mock-index.ts`
 
-- [ ] **Step 1: Add mock clients**
+- [x] **Step 1: Add mock clients**
 
 Create `src/data/mock-clientes.ts`:
 
@@ -214,7 +214,7 @@ export const clientes: Cliente[] = [
 ]
 ```
 
-- [ ] **Step 2: Add mock pedidos**
+- [x] **Step 2: Add mock pedidos**
 
 Create `src/data/mock-pedidos.ts`:
 
@@ -329,7 +329,7 @@ export const pedidos: Pedido[] = [
 ]
 ```
 
-- [ ] **Step 3: Add mock negociaciones**
+- [x] **Step 3: Add mock negociaciones**
 
 Create `src/data/mock-negociaciones.ts`:
 
@@ -365,7 +365,7 @@ export const negociaciones: Negociacion[] = [
 ]
 ```
 
-- [ ] **Step 4: Add mock historial**
+- [x] **Step 4: Add mock historial**
 
 Create `src/data/mock-historial.ts`:
 
@@ -403,7 +403,7 @@ export const historial: EventoHistorial[] = [
 ]
 ```
 
-- [ ] **Step 5: Add data entrypoint**
+- [x] **Step 5: Add data entrypoint**
 
 Create `src/data/mock-index.ts`:
 
@@ -423,7 +423,7 @@ export const ayroDataset: AyroDataset = {
 }
 ```
 
-- [ ] **Step 6: Verify mock data compiles**
+- [x] **Step 6: Verify mock data compiles**
 
 Run:
 
@@ -433,7 +433,7 @@ npm run build
 
 Expected: build passes with no TypeScript errors.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/data src/domain/types.ts
@@ -447,7 +447,7 @@ git commit -m "feat: add AYRO NEXO mock dataset"
 **Files:**
 - Create: `src/domain/rules.ts`
 
-- [ ] **Step 1: Add local rules**
+- [x] **Step 1: Add local rules**
 
 Create `src/domain/rules.ts`:
 
@@ -652,7 +652,7 @@ export function generarHistorialSimulado(
 }
 ```
 
-- [ ] **Step 2: Verify local rules compile**
+- [x] **Step 2: Verify local rules compile**
 
 Run:
 
@@ -662,7 +662,7 @@ npm run build
 
 Expected: build passes with no TypeScript errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/domain/rules.ts
