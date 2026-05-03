@@ -20,9 +20,12 @@ Required approach:
 - Business behavior comes from `src/domain/rules.ts`.
 - Derived dashboard state comes from `src/domain/selectors.ts`.
 - Repeated UI labels, visual variants, icon mappings, and color class mappings must live in a reusable config/constant file.
+- Client-changeable values must live in configuration, not components.
 - `page.tsx` composes sections and components only.
 
 If Task 5 needs colors or variants for severity, priority, metrics, or order states, create a dedicated UI config file instead of embedding those mappings inline in JSX.
+
+Any value the client could reasonably ask to change must be configurable: module labels, order state labels, priority labels, severity labels, visual variants, available owners, response thresholds, suggested action text, and visible system identity.
 
 ---
 
@@ -31,6 +34,7 @@ If Task 5 needs colors or variants for severity, priority, metrics, or order sta
 - Create `src/domain/types.ts`: shared domain types for clientes, pedidos, condiciones, negociaciones, historial, alertas, priorities, severities, and evaluation results.
 - Create `src/domain/rules.ts`: pure local rules for evaluating pedidos, alert generation, action queue construction, and history generation.
 - Create `src/domain/selectors.ts`: pure selectors for metrics, kanban grouping, action ordering, alert grouping, and recent history.
+- Create `src/domain/settings.ts`: configurable system identity, navigation, module previews, owners, operational thresholds, labels, and default commercial settings.
 - Create `src/domain/ui-config.ts`: shared UI labels, icon keys, and visual class mappings for states, severities, priorities, and metric accents.
 - Create `src/data/mock-clientes.ts`: realistic AYRO client mock data with responsible owners and commercial limits.
 - Create `src/data/mock-pedidos.ts`: realistic pedidos with priorities, owners, requested discount/term, dates, and observations.
@@ -831,10 +835,114 @@ git commit -m "feat: add AYRO NEXO dashboard selectors"
 ### Task 5: Refactor Dashboard v2 UI
 
 **Files:**
+- Create: `src/domain/settings.ts`
 - Create: `src/domain/ui-config.ts`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Add reusable UI config**
+- [x] **Step 1: Add configurable system settings**
+
+Create `src/domain/settings.ts` with product and client-changeable settings. Keep labels, owners, thresholds, navigation, and module preview copy here.
+
+```ts
+import type {
+  PedidoEstado,
+  PrioridadOperativa,
+  SeveridadAlerta,
+} from "@/domain/types"
+
+export type AyroIconKey =
+  | "layout"
+  | "building"
+  | "clipboard"
+  | "handshake"
+  | "sliders"
+  | "history"
+  | "settings"
+  | "shoppingCart"
+  | "users"
+  | "shield"
+  | "package"
+  | "check"
+  | "truck"
+
+export type MetricAccent = "cyan" | "amber" | "emerald" | "violet" | "slate" | "rose"
+
+export const ayroSettings = {
+  app: {
+    name: "AYRO NEXO",
+    subtitle: "Bloque Negro",
+    description: "Centro de comando comercial",
+  },
+  operational: {
+    pedidoSinRespuestaHoras: 24,
+    responsables: ["Eli", "Sofia", "Martin"],
+    limitesDefault: {
+      descuentoPermitido: 0,
+      plazoPermitidoDias: 0,
+    },
+  },
+  navigation: [
+    { label: "Dashboard", icon: "layout", active: true },
+    { label: "Clientes", icon: "building" },
+    { label: "Pedidos", icon: "clipboard" },
+    { label: "Negociaciones", icon: "handshake" },
+    { label: "Condiciones", icon: "sliders" },
+    { label: "Historial", icon: "history" },
+    { label: "Configuraciones", icon: "settings" },
+  ],
+  modules: [
+    {
+      title: "Clientes",
+      detail: "Ficha comercial, estado operativo y condiciones vigentes.",
+      icon: "users",
+    },
+    {
+      title: "Pedido Nuevo",
+      detail: "Carga guiada de bultos, cliente, fecha y observaciones.",
+      icon: "shoppingCart",
+    },
+    {
+      title: "Negociacion",
+      detail: "Seguimiento de descuentos, aprobaciones y respuestas.",
+      icon: "handshake",
+    },
+    {
+      title: "Condiciones Comerciales",
+      detail: "Reglas por cliente, volumen, plazo y excepciones.",
+      icon: "sliders",
+    },
+    {
+      title: "Historial",
+      detail: "Linea de tiempo de pedidos, cambios y entregas.",
+      icon: "history",
+    },
+    {
+      title: "Configuraciones",
+      detail: "Ajustes de estados, responsables, prioridades y alertas.",
+      icon: "settings",
+    },
+  ],
+  pedidoEstados: {
+    Armado: { label: "Armado", icon: "package" },
+    Negociacion: { label: "Negociacion", icon: "handshake" },
+    Confirmado: { label: "Confirmado", icon: "check" },
+    Entregado: { label: "Entregado", icon: "truck" },
+  } satisfies Record<PedidoEstado, { label: string; icon: AyroIconKey }>,
+  prioridades: {
+    alta: { label: "Alta" },
+    media: { label: "Media" },
+    baja: { label: "Baja" },
+  } satisfies Record<PrioridadOperativa, { label: string }>,
+  severidades: {
+    critica: { label: "Critica" },
+    alta: { label: "Alta" },
+    media: { label: "Media" },
+    baja: { label: "Baja" },
+  } satisfies Record<SeveridadAlerta, { label: string }>,
+}
+```
+
+- [x] **Step 2: Add reusable UI config**
 
 Create `src/domain/ui-config.ts` with shared visual mappings. Keep labels/classes here, not in `page.tsx`.
 
@@ -844,6 +952,7 @@ import type {
   PrioridadOperativa,
   SeveridadAlerta,
 } from "@/domain/types"
+import { ayroSettings } from "@/domain/settings"
 
 export const estadoPedidoConfig: Record<
   PedidoEstado,
@@ -855,26 +964,22 @@ export const estadoPedidoConfig: Record<
   }
 > = {
   Armado: {
-    label: "Armado",
-    icon: "package",
+    ...ayroSettings.pedidoEstados.Armado,
     className: "border-cyan-400/25 bg-cyan-400/10 text-cyan-200",
     dotClassName: "bg-cyan-300",
   },
   Negociacion: {
-    label: "Negociacion",
-    icon: "handshake",
+    ...ayroSettings.pedidoEstados.Negociacion,
     className: "border-amber-400/30 bg-amber-400/10 text-amber-200",
     dotClassName: "bg-amber-300",
   },
   Confirmado: {
-    label: "Confirmado",
-    icon: "check",
+    ...ayroSettings.pedidoEstados.Confirmado,
     className: "border-emerald-400/25 bg-emerald-400/10 text-emerald-200",
     dotClassName: "bg-emerald-300",
   },
   Entregado: {
-    label: "Entregado",
-    icon: "truck",
+    ...ayroSettings.pedidoEstados.Entregado,
     className: "border-slate-500/30 bg-slate-500/10 text-slate-200",
     dotClassName: "bg-slate-300",
   },
@@ -888,15 +993,15 @@ export const prioridadConfig: Record<
   }
 > = {
   alta: {
-    label: "Alta",
+    ...ayroSettings.prioridades.alta,
     className: "border-rose-400/30 bg-rose-400/10 text-rose-100",
   },
   media: {
-    label: "Media",
+    ...ayroSettings.prioridades.media,
     className: "border-amber-400/30 bg-amber-400/10 text-amber-100",
   },
   baja: {
-    label: "Baja",
+    ...ayroSettings.prioridades.baja,
     className: "border-cyan-400/30 bg-cyan-400/10 text-cyan-100",
   },
 }
@@ -909,19 +1014,19 @@ export const severidadConfig: Record<
   }
 > = {
   critica: {
-    label: "Critica",
+    ...ayroSettings.severidades.critica,
     className: "border-rose-400/35 bg-rose-400/10 text-rose-100",
   },
   alta: {
-    label: "Alta",
+    ...ayroSettings.severidades.alta,
     className: "border-orange-400/35 bg-orange-400/10 text-orange-100",
   },
   media: {
-    label: "Media",
+    ...ayroSettings.severidades.media,
     className: "border-amber-400/35 bg-amber-400/10 text-amber-100",
   },
   baja: {
-    label: "Baja",
+    ...ayroSettings.severidades.baja,
     className: "border-cyan-400/35 bg-cyan-400/10 text-cyan-100",
   },
 }
@@ -936,12 +1041,13 @@ export const metricAccentConfig = {
 } as const
 ```
 
-- [ ] **Step 2: Replace inline data with derived dashboard data**
+- [ ] **Step 3: Replace inline data with derived dashboard data**
 
 Modify `src/app/page.tsx` so it imports:
 
 ```ts
 import { ayroDataset } from "@/data/mock-index"
+import { ayroSettings } from "@/domain/settings"
 import {
   estadoPedidoConfig,
   metricAccentConfig,
@@ -962,9 +1068,9 @@ import type {
 } from "@/domain/types"
 ```
 
-Remove local `OrderState`, `Order`, `alerts`, `orders`, inline metrics, and any hardcoded operational data that now lives in `src/data` or `src/domain`.
+Remove local `navigation`, `modulePreviews`, `OrderState`, `Order`, `alerts`, `orders`, inline metrics, and any hardcoded operational data that now lives in `src/data`, `src/domain/settings.ts`, or `src/domain`.
 
-- [ ] **Step 3: Add dashboard data constants near top-level**
+- [ ] **Step 4: Add dashboard data constants near top-level**
 
 Add after configuration constants:
 
@@ -974,7 +1080,7 @@ const dashboardData = getDashboardData(ayroDataset)
 
 Use `dashboardData.metricas`, `dashboardData.pedidosPorEstado`, `dashboardData.alertas`, `dashboardData.colaAccion`, and `dashboardData.historialReciente` in the page.
 
-- [ ] **Step 4: Update top metrics**
+- [ ] **Step 5: Update top metrics**
 
 Render six metrics:
 
@@ -995,7 +1101,7 @@ accent: "cyan" | "amber" | "emerald" | "violet" | "slate" | "rose"
 
 Add matching accent classes.
 
-- [ ] **Step 5: Add Cola de Acción panel**
+- [ ] **Step 6: Add Cola de Acción panel**
 
 Place a new primary panel above or beside the kanban titled `Cola de accion`.
 
@@ -1021,7 +1127,7 @@ function ActionQueueItem({ action }: { action: AccionOperativa }) {
 }
 ```
 
-- [ ] **Step 6: Update kanban cards**
+- [ ] **Step 7: Update kanban cards**
 
 Each kanban card must show:
 
@@ -1034,7 +1140,7 @@ Each kanban card must show:
 
 Use the existing dark command-center style and preserve responsive layout.
 
-- [ ] **Step 7: Update alert panel to use generated alerts**
+- [ ] **Step 8: Update alert panel to use generated alerts**
 
 Replace hardcoded alert list with `dashboardData.alertas`.
 
@@ -1048,7 +1154,7 @@ function OperationalAlert({ alert }: { alert: AlertaOperativa }) {
 
 Use `severidadConfig` from `src/domain/ui-config.ts`; do not create inline severity class maps in `page.tsx`.
 
-- [ ] **Step 8: Update historial reciente**
+- [ ] **Step 9: Update historial reciente**
 
 Render `dashboardData.historialReciente` instead of hardcoded activity text.
 
@@ -1059,7 +1165,7 @@ Each row must show:
 - `responsable`
 - `fecha`
 
-- [ ] **Step 9: Run verification**
+- [ ] **Step 10: Run verification**
 
 Run:
 
@@ -1070,7 +1176,7 @@ npm run build
 
 Expected: both pass.
 
-- [ ] **Step 10: Commit**
+- [ ] **Step 11: Commit**
 
 ```bash
 git add src/app/page.tsx src/data src/domain

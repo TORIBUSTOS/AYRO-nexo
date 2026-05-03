@@ -83,6 +83,7 @@ Si un color, estado visual o label se repite, debe vivir en una configuración c
 - **Condiciones Comerciales**: Define límites por cliente para descuento, plazo y reglas operativas.
 - **Historial**: Registra eventos relevantes de clientes, pedidos, negociaciones y decisiones.
 - **Alertas Operativas**: Muestra situaciones que requieren acción: aprobaciones, clientes sin condiciones, pedidos sin respuesta y casos bloqueados.
+- **Configuraciones**: Centraliza valores modificables por cliente para evitar cambios de codigo por ajustes menores.
 
 ---
 
@@ -145,6 +146,18 @@ Si un color, estado visual o label se repite, debe vivir en una configuración c
 - responsable
 - estado
 - acción sugerida
+
+### ConfiguracionSistema
+
+- identidad visible del sistema
+- labels de modulos
+- labels de estados
+- labels de prioridades
+- labels de severidades
+- responsables disponibles
+- umbrales operativos
+- limites comerciales default
+- variantes visuales configurables
 
 ---
 
@@ -230,6 +243,29 @@ responsable: "Eli"
 ```
 
 Esto permite transformar el dashboard en una herramienta de gestión real, no solo en una pantalla informativa.
+
+---
+
+## 8.1. Configuraciones del Sistema
+
+AYRO NEXO debe incluir un modulo **Configuraciones** como parte normal de una app/sistema operativo.
+
+El objetivo es que ajustes menores no requieran cambios de codigo. Todo valor que el cliente razonablemente pueda pedir modificar debe vivir en configuracion.
+
+Configurables base del MVP:
+
+- identidad visible: nombre, subtitulo y descripcion operativa;
+- nombres visibles de modulos;
+- labels de estados de pedido;
+- labels de prioridad;
+- labels de severidad;
+- colores/variantes visuales asociadas a estados, prioridades y severidades;
+- responsables disponibles;
+- umbral de pedido sin respuesta, inicialmente 24 horas;
+- limites comerciales default para futuros flujos;
+- textos de acciones sugeridas.
+
+En el MVP esta configuracion puede ser local y mockeada, pero debe estar separada del JSX para que luego pueda migrar a una pantalla editable o backend.
 
 ---
 
@@ -467,6 +503,7 @@ El frontend-first queda validado cuando:
 - **Backend**: No incluido en el primer MVP.
 - **Base de Datos**: No incluida en el primer MVP.
 - **Infraestructura**: Desarrollo local con Next.js; despliegue futuro previsto en Vercel cuando el flujo esté validado.
+- **Configuracion MVP**: archivos locales versionados, separados entre configuracion operativa y configuracion visual.
 
 ---
 
@@ -495,7 +532,9 @@ El frontend-first queda validado cuando:
 │   ├── domain/
 │   │   ├── types.ts
 │   │   ├── rules.ts
-│   │   └── selectors.ts
+│   │   ├── selectors.ts
+│   │   ├── settings.ts
+│   │   └── ui-config.ts
 │   ├── lib/
 │   └── types/
 ├── public/
@@ -599,6 +638,7 @@ GET /dashboard/cola-accion
 - Condiciones comerciales.
 - Negociaciones.
 - Historial.
+- Configuraciones.
 
 ### Sprint 4: Preparación backend
 

@@ -15,6 +15,7 @@ AYRO NEXO busca ordenar la operacion comercial desde cliente, pedido y negociaci
 - Datos mock centralizados creados en `src/data/`.
 - Reglas locales creadas en `src/domain/rules.ts`.
 - Selectors del dashboard creados en `src/domain/selectors.ts`.
+- Configuraciones base del sistema previstas para `src/domain/settings.ts` y `src/domain/ui-config.ts`.
 
 ## Estrategia MVP
 
@@ -46,6 +47,12 @@ Evitar hardcodear:
 
 La UI debe componerse desde datos centralizados, selectors, reglas locales y constantes/tokens reutilizables. Si un color, label o variante se repite, debe ir a una configuracion compartida y no quedar inline en JSX.
 
+Regla de producto:
+
+> Todo valor que el cliente razonablemente pueda pedir cambiar debe vivir en configuracion, no en componentes.
+
+Esto incluye labels, colores, prioridades, severidades, responsables, umbrales operativos y textos de acciones sugeridas.
+
 ## Modulos objetivo
 
 - Dashboard Operativo
@@ -56,6 +63,7 @@ La UI debe componerse desde datos centralizados, selectors, reglas locales y con
 - Condiciones Comerciales
 - Historial
 - Alertas Operativas
+- Configuraciones
 
 ## Workflow actual
 
@@ -70,8 +78,9 @@ Completado:
 
 Pendiente:
 
-1. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
-2. QA visual y validacion contra blueprint.
+1. Configuracion base del sistema y UI.
+2. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
+3. QA visual y validacion contra blueprint.
 
 ## Comandos
 
