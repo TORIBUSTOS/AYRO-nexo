@@ -27,6 +27,14 @@ export type MetricAccent =
   | "slate"
   | "rose"
 
+export type DashboardMetricKey =
+  | "pedidosActivos"
+  | "pedidosEnNegociacion"
+  | "pedidosConfirmados"
+  | "pedidosEntregados"
+  | "clientesActivos"
+  | "alertasAbiertas"
+
 type NavigationItem = {
   label: string
   icon: AyroIconKey
@@ -39,11 +47,45 @@ type ModulePreview = {
   icon: AyroIconKey
 }
 
+type DashboardMetric = {
+  key: DashboardMetricKey
+  title: string
+  helper: string
+  icon: AyroIconKey
+  accent: MetricAccent
+}
+
 export const ayroSettings = {
   app: {
     name: "AYRO NEXO",
     subtitle: "Bloque Negro",
     description: "Centro de comando comercial",
+  },
+  dashboard: {
+    title: "Operacion AYRO en vivo",
+    description:
+      "Pedidos, negociaciones, condiciones y alertas en una sola vista operativa.",
+    primaryAction: "Nuevo Pedido",
+    onlineLabel: "Online",
+    pulseTitle: "Pulso operativo",
+    activePackagesLabel: "Bultos activos",
+    localDataNote: "Vista local con datos mockeados. Sin backend ni persistencia.",
+    kanbanTitle: "Pedidos por estado",
+    kanbanDescription: "Kanban operativo con datos locales.",
+    mockOrdersLabel: "pedidos mock",
+    actionQueueTitle: "Cola de accion",
+    actionQueueDescription: "Que hay que resolver ahora, ordenado por prioridad.",
+    alertsTitle: "Alertas operativas",
+    historyTitle: "Historial reciente",
+    moduleSectionTitle: "Modulos operativos",
+    labels: {
+      action: "Accion",
+      bultos: "bultos",
+      date: "Fecha",
+      priority: "Prioridad",
+      responsible: "Responsable",
+      state: "Estado",
+    },
   },
   operational: {
     pedidoSinRespuestaHoras: 24,
@@ -53,6 +95,50 @@ export const ayroSettings = {
       plazoPermitidoDias: 0,
     },
   },
+  metrics: [
+    {
+      key: "pedidosActivos",
+      title: "Pedidos activos",
+      helper: "Sin contar entregados",
+      icon: "package",
+      accent: "cyan",
+    },
+    {
+      key: "pedidosEnNegociacion",
+      title: "En negociacion",
+      helper: "Requieren decision",
+      icon: "handshake",
+      accent: "amber",
+    },
+    {
+      key: "pedidosConfirmados",
+      title: "Confirmados",
+      helper: "Listos para entrega",
+      icon: "check",
+      accent: "emerald",
+    },
+    {
+      key: "pedidosEntregados",
+      title: "Entregados",
+      helper: "Operacion cerrada",
+      icon: "truck",
+      accent: "slate",
+    },
+    {
+      key: "clientesActivos",
+      title: "Clientes activos",
+      helper: "Con operacion vigente",
+      icon: "users",
+      accent: "violet",
+    },
+    {
+      key: "alertasAbiertas",
+      title: "Alertas abiertas",
+      helper: "Requieren accion",
+      icon: "shield",
+      accent: "rose",
+    },
+  ] satisfies DashboardMetric[],
   navigation: [
     { label: "Dashboard", icon: "layout", active: true },
     { label: "Clientes", icon: "building" },

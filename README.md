@@ -15,7 +15,8 @@ AYRO NEXO busca ordenar la operacion comercial desde cliente, pedido y negociaci
 - Datos mock centralizados creados en `src/data/`.
 - Reglas locales creadas en `src/domain/rules.ts`.
 - Selectors del dashboard creados en `src/domain/selectors.ts`.
-- Configuraciones base del sistema previstas para `src/domain/settings.ts` y `src/domain/ui-config.ts`.
+- Configuraciones base del sistema creadas en `src/domain/settings.ts` y `src/domain/ui-config.ts`.
+- Dashboard conectado a datos, selectors y configuracion reutilizable.
 
 ## Estrategia MVP
 
@@ -75,12 +76,12 @@ Completado:
 2. Mock data centralizada.
 3. Reglas locales de negocio.
 4. Selectors del dashboard.
+5. Configuracion base del sistema y UI.
+6. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
 
 Pendiente:
 
-1. Configuracion base del sistema y UI.
-2. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
-3. QA visual y validacion contra blueprint.
+1. QA visual y validacion contra blueprint.
 
 ## Comandos
 

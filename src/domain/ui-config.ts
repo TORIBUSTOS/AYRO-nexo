@@ -3,13 +3,17 @@ import type {
   PrioridadOperativa,
   SeveridadAlerta,
 } from "@/domain/types"
-import { ayroSettings, type MetricAccent } from "@/domain/settings"
+import {
+  ayroSettings,
+  type AyroIconKey,
+  type MetricAccent,
+} from "@/domain/settings"
 
 export const estadoPedidoConfig: Record<
   PedidoEstado,
   {
     label: string
-    icon: string
+    icon: AyroIconKey
     className: string
     dotClassName: string
   }

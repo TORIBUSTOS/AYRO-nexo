@@ -1041,7 +1041,7 @@ export const metricAccentConfig = {
 } as const
 ```
 
-- [ ] **Step 3: Replace inline data with derived dashboard data**
+- [x] **Step 3: Replace inline data with derived dashboard data**
 
 Modify `src/app/page.tsx` so it imports:
 
@@ -1070,7 +1070,7 @@ import type {
 
 Remove local `navigation`, `modulePreviews`, `OrderState`, `Order`, `alerts`, `orders`, inline metrics, and any hardcoded operational data that now lives in `src/data`, `src/domain/settings.ts`, or `src/domain`.
 
-- [ ] **Step 4: Add dashboard data constants near top-level**
+- [x] **Step 4: Add dashboard data constants near top-level**
 
 Add after configuration constants:
 
@@ -1080,7 +1080,7 @@ const dashboardData = getDashboardData(ayroDataset)
 
 Use `dashboardData.metricas`, `dashboardData.pedidosPorEstado`, `dashboardData.alertas`, `dashboardData.colaAccion`, and `dashboardData.historialReciente` in the page.
 
-- [ ] **Step 5: Update top metrics**
+- [x] **Step 5: Update top metrics**
 
 Render six metrics:
 
@@ -1101,7 +1101,7 @@ accent: "cyan" | "amber" | "emerald" | "violet" | "slate" | "rose"
 
 Add matching accent classes.
 
-- [ ] **Step 6: Add Cola de Acción panel**
+- [x] **Step 6: Add Cola de Acción panel**
 
 Place a new primary panel above or beside the kanban titled `Cola de accion`.
 
@@ -1127,7 +1127,7 @@ function ActionQueueItem({ action }: { action: AccionOperativa }) {
 }
 ```
 
-- [ ] **Step 7: Update kanban cards**
+- [x] **Step 7: Update kanban cards**
 
 Each kanban card must show:
 
@@ -1140,7 +1140,7 @@ Each kanban card must show:
 
 Use the existing dark command-center style and preserve responsive layout.
 
-- [ ] **Step 8: Update alert panel to use generated alerts**
+- [x] **Step 8: Update alert panel to use generated alerts**
 
 Replace hardcoded alert list with `dashboardData.alertas`.
 
@@ -1154,7 +1154,7 @@ function OperationalAlert({ alert }: { alert: AlertaOperativa }) {
 
 Use `severidadConfig` from `src/domain/ui-config.ts`; do not create inline severity class maps in `page.tsx`.
 
-- [ ] **Step 9: Update historial reciente**
+- [x] **Step 9: Update historial reciente**
 
 Render `dashboardData.historialReciente` instead of hardcoded activity text.
 
@@ -1165,7 +1165,7 @@ Each row must show:
 - `responsable`
 - `fecha`
 
-- [ ] **Step 10: Run verification**
+- [x] **Step 10: Run verification**
 
 Run:
 
@@ -1176,7 +1176,7 @@ npm run build
 
 Expected: both pass.
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add src/app/page.tsx src/data src/domain
