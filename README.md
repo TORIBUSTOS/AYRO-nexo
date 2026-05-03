@@ -14,6 +14,7 @@ AYRO NEXO busca ordenar la operacion comercial desde cliente, pedido y negociaci
 - Tipos de dominio creados en `src/domain/types.ts`.
 - Datos mock centralizados creados en `src/data/`.
 - Reglas locales creadas en `src/domain/rules.ts`.
+- Selectors del dashboard creados en `src/domain/selectors.ts`.
 
 ## Estrategia MVP
 
@@ -27,6 +28,23 @@ No forman parte del primer ciclo:
 - APIs externas
 - backend propio
 - persistencia
+
+## Regla importante de UI
+
+No hardcodear UI en `src/app/page.tsx`.
+
+Evitar hardcodear:
+
+- colores
+- themes
+- variantes visuales
+- labels de estados
+- severidades
+- prioridades
+- datos mock
+- reglas de negocio
+
+La UI debe componerse desde datos centralizados, selectors, reglas locales y constantes/tokens reutilizables. Si un color, label o variante se repite, debe ir a una configuracion compartida y no quedar inline en JSX.
 
 ## Modulos objetivo
 
@@ -48,12 +66,12 @@ Completado:
 1. Tipos TypeScript de dominio.
 2. Mock data centralizada.
 3. Reglas locales de negocio.
+4. Selectors del dashboard.
 
 Pendiente:
 
-1. Selectors del dashboard.
-2. Refactor de `src/app/page.tsx` para usar datos derivados.
-3. QA visual y validacion contra blueprint.
+1. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
+2. QA visual y validacion contra blueprint.
 
 ## Comandos
 

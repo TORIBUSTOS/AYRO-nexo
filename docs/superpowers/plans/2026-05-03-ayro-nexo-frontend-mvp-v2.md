@@ -10,11 +10,28 @@
 
 ---
 
+## Hard Rule: No Hardcoded UI
+
+`src/app/page.tsx` must not contain hardcoded operational data, business rules, repeated labels, repeated severity/priority mappings, color decisions, or theme decisions.
+
+Required approach:
+
+- Data comes from `src/data`.
+- Business behavior comes from `src/domain/rules.ts`.
+- Derived dashboard state comes from `src/domain/selectors.ts`.
+- Repeated UI labels, visual variants, icon mappings, and color class mappings must live in a reusable config/constant file.
+- `page.tsx` composes sections and components only.
+
+If Task 5 needs colors or variants for severity, priority, metrics, or order states, create a dedicated UI config file instead of embedding those mappings inline in JSX.
+
+---
+
 ## File Structure
 
 - Create `src/domain/types.ts`: shared domain types for clientes, pedidos, condiciones, negociaciones, historial, alertas, priorities, severities, and evaluation results.
 - Create `src/domain/rules.ts`: pure local rules for evaluating pedidos, alert generation, action queue construction, and history generation.
 - Create `src/domain/selectors.ts`: pure selectors for metrics, kanban grouping, action ordering, alert grouping, and recent history.
+- Create `src/domain/ui-config.ts`: shared UI labels, icon keys, and visual class mappings for states, severities, priorities, and metric accents.
 - Create `src/data/mock-clientes.ts`: realistic AYRO client mock data with responsible owners and commercial limits.
 - Create `src/data/mock-pedidos.ts`: realistic pedidos with priorities, owners, requested discount/term, dates, and observations.
 - Create `src/data/mock-negociaciones.ts`: negotiation mock data tied to pedidos.
@@ -814,14 +831,123 @@ git commit -m "feat: add AYRO NEXO dashboard selectors"
 ### Task 5: Refactor Dashboard v2 UI
 
 **Files:**
+- Create: `src/domain/ui-config.ts`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Replace inline data with derived dashboard data**
+- [ ] **Step 1: Add reusable UI config**
+
+Create `src/domain/ui-config.ts` with shared visual mappings. Keep labels/classes here, not in `page.tsx`.
+
+```ts
+import type {
+  PedidoEstado,
+  PrioridadOperativa,
+  SeveridadAlerta,
+} from "@/domain/types"
+
+export const estadoPedidoConfig: Record<
+  PedidoEstado,
+  {
+    label: string
+    icon: "package" | "handshake" | "check" | "truck"
+    className: string
+    dotClassName: string
+  }
+> = {
+  Armado: {
+    label: "Armado",
+    icon: "package",
+    className: "border-cyan-400/25 bg-cyan-400/10 text-cyan-200",
+    dotClassName: "bg-cyan-300",
+  },
+  Negociacion: {
+    label: "Negociacion",
+    icon: "handshake",
+    className: "border-amber-400/30 bg-amber-400/10 text-amber-200",
+    dotClassName: "bg-amber-300",
+  },
+  Confirmado: {
+    label: "Confirmado",
+    icon: "check",
+    className: "border-emerald-400/25 bg-emerald-400/10 text-emerald-200",
+    dotClassName: "bg-emerald-300",
+  },
+  Entregado: {
+    label: "Entregado",
+    icon: "truck",
+    className: "border-slate-500/30 bg-slate-500/10 text-slate-200",
+    dotClassName: "bg-slate-300",
+  },
+}
+
+export const prioridadConfig: Record<
+  PrioridadOperativa,
+  {
+    label: string
+    className: string
+  }
+> = {
+  alta: {
+    label: "Alta",
+    className: "border-rose-400/30 bg-rose-400/10 text-rose-100",
+  },
+  media: {
+    label: "Media",
+    className: "border-amber-400/30 bg-amber-400/10 text-amber-100",
+  },
+  baja: {
+    label: "Baja",
+    className: "border-cyan-400/30 bg-cyan-400/10 text-cyan-100",
+  },
+}
+
+export const severidadConfig: Record<
+  SeveridadAlerta,
+  {
+    label: string
+    className: string
+  }
+> = {
+  critica: {
+    label: "Critica",
+    className: "border-rose-400/35 bg-rose-400/10 text-rose-100",
+  },
+  alta: {
+    label: "Alta",
+    className: "border-orange-400/35 bg-orange-400/10 text-orange-100",
+  },
+  media: {
+    label: "Media",
+    className: "border-amber-400/35 bg-amber-400/10 text-amber-100",
+  },
+  baja: {
+    label: "Baja",
+    className: "border-cyan-400/35 bg-cyan-400/10 text-cyan-100",
+  },
+}
+
+export const metricAccentConfig = {
+  cyan: "border-cyan-300/25 bg-cyan-300/10 text-cyan-200",
+  amber: "border-amber-300/25 bg-amber-300/10 text-amber-200",
+  emerald: "border-emerald-300/25 bg-emerald-300/10 text-emerald-200",
+  violet: "border-violet-300/25 bg-violet-300/10 text-violet-200",
+  slate: "border-slate-300/25 bg-slate-300/10 text-slate-200",
+  rose: "border-rose-300/25 bg-rose-300/10 text-rose-200",
+} as const
+```
+
+- [ ] **Step 2: Replace inline data with derived dashboard data**
 
 Modify `src/app/page.tsx` so it imports:
 
 ```ts
 import { ayroDataset } from "@/data/mock-index"
+import {
+  estadoPedidoConfig,
+  metricAccentConfig,
+  prioridadConfig,
+  severidadConfig,
+} from "@/domain/ui-config"
 import {
   getClienteNombre,
   getDashboardData,
@@ -838,7 +964,7 @@ import type {
 
 Remove local `OrderState`, `Order`, `alerts`, `orders`, inline metrics, and any hardcoded operational data that now lives in `src/data` or `src/domain`.
 
-- [ ] **Step 2: Add dashboard data constants near top-level**
+- [ ] **Step 3: Add dashboard data constants near top-level**
 
 Add after configuration constants:
 
@@ -848,7 +974,7 @@ const dashboardData = getDashboardData(ayroDataset)
 
 Use `dashboardData.metricas`, `dashboardData.pedidosPorEstado`, `dashboardData.alertas`, `dashboardData.colaAccion`, and `dashboardData.historialReciente` in the page.
 
-- [ ] **Step 3: Update top metrics**
+- [ ] **Step 4: Update top metrics**
 
 Render six metrics:
 
@@ -869,7 +995,7 @@ accent: "cyan" | "amber" | "emerald" | "violet" | "slate" | "rose"
 
 Add matching accent classes.
 
-- [ ] **Step 4: Add Cola de Acción panel**
+- [ ] **Step 5: Add Cola de Acción panel**
 
 Place a new primary panel above or beside the kanban titled `Cola de accion`.
 
@@ -895,7 +1021,7 @@ function ActionQueueItem({ action }: { action: AccionOperativa }) {
 }
 ```
 
-- [ ] **Step 5: Update kanban cards**
+- [ ] **Step 6: Update kanban cards**
 
 Each kanban card must show:
 
@@ -908,7 +1034,7 @@ Each kanban card must show:
 
 Use the existing dark command-center style and preserve responsive layout.
 
-- [ ] **Step 6: Update alert panel to use generated alerts**
+- [ ] **Step 7: Update alert panel to use generated alerts**
 
 Replace hardcoded alert list with `dashboardData.alertas`.
 
@@ -920,18 +1046,9 @@ function OperationalAlert({ alert }: { alert: AlertaOperativa }) {
 }
 ```
 
-Severity class mapping:
+Use `severidadConfig` from `src/domain/ui-config.ts`; do not create inline severity class maps in `page.tsx`.
 
-```ts
-const severityClasses: Record<SeveridadAlerta, string> = {
-  critica: "border-rose-400/35 bg-rose-400/10 text-rose-100",
-  alta: "border-orange-400/35 bg-orange-400/10 text-orange-100",
-  media: "border-amber-400/35 bg-amber-400/10 text-amber-100",
-  baja: "border-cyan-400/35 bg-cyan-400/10 text-cyan-100",
-}
-```
-
-- [ ] **Step 7: Update historial reciente**
+- [ ] **Step 8: Update historial reciente**
 
 Render `dashboardData.historialReciente` instead of hardcoded activity text.
 
@@ -942,7 +1059,7 @@ Each row must show:
 - `responsable`
 - `fecha`
 
-- [ ] **Step 8: Run verification**
+- [ ] **Step 9: Run verification**
 
 Run:
 
@@ -953,7 +1070,7 @@ npm run build
 
 Expected: both pass.
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 10: Commit**
 
 ```bash
 git add src/app/page.tsx src/data src/domain

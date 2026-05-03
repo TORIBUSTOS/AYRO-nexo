@@ -43,6 +43,32 @@ Antes de construir backend, el frontend debe demostrar que:
 - cada problema tiene responsable;
 - el flujo se puede usar con casos reales de AYRO.
 
+### Regla importante de UI
+
+La UI no debe depender de hardcodeos sueltos en la pantalla principal.
+
+No hardcodear en `src/app/page.tsx`:
+
+- colores;
+- themes;
+- variantes visuales;
+- labels de estados;
+- severidades;
+- prioridades;
+- textos operativos repetidos;
+- datos mock;
+- reglas de negocio.
+
+La pantalla debe renderizar desde:
+
+- datos centralizados;
+- selectors;
+- reglas locales;
+- constantes/tokens de UI;
+- componentes reutilizables.
+
+Si un color, estado visual o label se repite, debe vivir en una configuración compartida, no inline dentro del JSX.
+
 ---
 
 ## 3. Mapa Funcional
@@ -264,6 +290,8 @@ Esto permite transformar el dashboard en una herramienta de gestión real, no so
 ## 11. Dashboard Operativo v2
 
 El dashboard debe dejar de ser solo informativo y pasar a ser decisional.
+
+La implementacion del dashboard debe evitar UI hardcoded. Colores, clases por severidad, labels de prioridad, labels de estado, iconos por estado y variantes visuales deben definirse en una configuracion reutilizable. `page.tsx` debe componer la vista, no contener reglas visuales dispersas.
 
 ### Secciones recomendadas
 
@@ -650,4 +678,3 @@ AYRO NEXO MVP será exitoso si una persona de AYRO puede abrir el dashboard y en
 4. qué negociaciones requieren aprobación;
 5. quién debe resolver cada cosa;
 6. cuál es la próxima acción concreta.
-
