@@ -10,6 +10,7 @@ import { ClientesView } from "@/features/clientes/clientes-view"
 import { CondicionesView } from "@/features/condiciones/condiciones-view"
 import { ConfiguracionesView } from "@/features/configuraciones/configuraciones-view"
 import { DashboardView } from "@/features/dashboard/dashboard-view"
+import { HistorialView } from "@/features/historial/historial-view"
 import { NegociacionesView } from "@/features/negociaciones/negociaciones-view"
 import { PedidosView } from "@/features/pedidos/pedidos-view"
 
@@ -62,8 +63,9 @@ export default function Home() {
         return (
           <ConfiguracionesView config={config} onConfigChange={setConfig} />
         )
-      case "dashboard":
       case "historial":
+        return <HistorialView dataset={dataset} config={config} />
+      case "dashboard":
       default:
         return <DashboardView dataset={dataset} config={config} />
     }

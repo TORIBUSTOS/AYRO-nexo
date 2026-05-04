@@ -81,7 +81,7 @@ Completado:
 6. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
 7. QA visual desktop/mobile, consola, lint y build.
 
-Sprint 2: Workflows locales frontend-only en progreso.
+Sprint 2: Workflows locales frontend-only validado.
 
 Completado:
 
@@ -93,13 +93,14 @@ Completado:
 6. Vista Configuraciones con toggle local 24h/48h sin persistencia.
 7. Vista Clientes con resumen operativo y detalle basico.
 8. Vista Pedidos con filtros y simulacion local usando `evaluarPedido`.
+9. Vista Negociaciones agrupada por estado.
+10. Vista Condiciones Comerciales con cobertura comercial.
+11. Vista Historial completo con filtros por entidad.
+12. QA final desktop/mobile, consola, lint y build.
 
-Pendiente Sprint 2:
+Pendiente:
 
-1. Vista Negociaciones.
-2. Vista Condiciones Comerciales.
-3. Vista Historial completo.
-4. QA visual final y cierre documental.
+1. Definir Sprint 3: persistencia local, backend minimo o API real.
 
 ## Comandos
 

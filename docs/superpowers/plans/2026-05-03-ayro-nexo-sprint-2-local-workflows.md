@@ -852,26 +852,34 @@ Resultado: completado en commit `d54922e`.
 
 ### Task 8: Negociaciones View
 
-- Listado agrupado por estado.
-- Acción sugerida.
+- [x] Listado agrupado por estado.
+- [x] Acción sugerida.
+
+Resultado: completado en commit `8939873`.
 
 ### Task 9: Condiciones View
 
-- Cards por cliente.
-- Resumen de cobertura comercial.
+- [x] Cards por cliente.
+- [x] Resumen de cobertura comercial.
+
+Resultado: completado en commit `8939873`.
 
 ### Task 10: Historial View
 
-- Historial completo.
-- Filtro opcional por entidad.
+- [x] Historial completo.
+- [x] Filtro opcional por entidad.
+
+Resultado: completado en este cierre de Sprint 2.
 
 ### Task 11: QA y README
 
-- `npm run lint`
-- `npm run build`
-- `git diff --check`
-- prueba visual desktop/mobile.
-- actualizar README.
+- [x] `npm run lint`
+- [x] `npm run build`
+- [x] `git diff --check`
+- [x] prueba visual desktop/mobile.
+- [x] actualizar README.
+
+Resultado: completado en este cierre de Sprint 2.
 
 ---
 
@@ -1489,7 +1497,7 @@ Expected: la simulacion devuelve Confirmado o Negociacion usando `evaluarPedido`
 - Create: `src/features/negociaciones/negociaciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Crear vista agrupada**
+- [x] **Step 1: Crear vista agrupada**
 
 Agrupar negociaciones por:
 
@@ -1502,12 +1510,12 @@ rechazada
 
 Cada card debe mostrar cliente, pedido, motivo, estado, responsable aprobacion, aprobacion requerida, comentario y accion sugerida.
 
-- [ ] **Step 2: Conectar navegación**
+- [x] **Step 2: Conectar navegación**
 
 Agregar caso `negociaciones` en `renderView()`.
 Pasar `dataset` por props. No importar `mock-index.ts` desde la vista.
 
-- [ ] **Step 3: Verificar y commitear**
+- [x] **Step 3: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1526,7 +1534,7 @@ Expected: pendientes y bloqueadas visibles.
 - Create: `src/features/condiciones/condiciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Crear resumen de cobertura**
+- [x] **Step 1: Crear resumen de cobertura**
 
 Mostrar:
 
@@ -1536,16 +1544,16 @@ clientes incompletos
 porcentaje cobertura comercial
 ```
 
-- [ ] **Step 2: Crear cards por cliente**
+- [x] **Step 2: Crear cards por cliente**
 
 Mostrar descuento permitido, plazo permitido, responsable, estado completa/incompleta e impacto operativo.
 
-- [ ] **Step 3: Conectar navegación**
+- [x] **Step 3: Conectar navegación**
 
 Agregar caso `condiciones` en `renderView()`.
 Pasar `dataset` por props. No importar `mock-index.ts` desde la vista.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1564,7 +1572,7 @@ Expected: cobertura comercial visible y clientes sin condiciones destacados.
 - Create: `src/features/historial/historial-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Crear vista historial completo**
+- [x] **Step 1: Crear vista historial completo**
 
 Usar:
 
@@ -1574,7 +1582,7 @@ getHistorialOperativo(dataset, config)
 
 No usar `historialReciente`.
 
-- [ ] **Step 2: Agregar filtro por entidad**
+- [x] **Step 2: Agregar filtro por entidad**
 
 Filtros:
 
@@ -1582,12 +1590,12 @@ Filtros:
 Todos / cliente / pedido / negociacion / alerta
 ```
 
-- [ ] **Step 3: Conectar navegación**
+- [x] **Step 3: Conectar navegación**
 
 Agregar caso `historial` en `renderView()` y pasar `config`.
 Pasar `dataset` por props. No importar `mock-index.ts` desde la vista.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1606,7 +1614,7 @@ Expected: muestra eventos base y eventos generados por alertas.
 - Modify: `README.md`
 - Modify: `docs/superpowers/plans/2026-05-03-ayro-nexo-sprint-2-local-workflows.md`
 
-- [ ] **Step 1: Ejecutar checks finales**
+- [x] **Step 1: Ejecutar checks finales**
 
 ```bash
 npm run lint
@@ -1618,7 +1626,7 @@ Select-String -Path "src\features\**\*.tsx" -Pattern "@/data/mock-index"
 Expected: todos pasan.
 El `Select-String` no debe devolver resultados.
 
-- [ ] **Step 2: Validar en navegador**
+- [x] **Step 2: Validar en navegador**
 
 Abrir `http://localhost:3000` y confirmar:
 
@@ -1634,7 +1642,7 @@ El cambio de umbral recalcula alertas/historial.
 Mobile no tiene overflow horizontal.
 ```
 
-- [ ] **Step 3: Actualizar README**
+- [x] **Step 3: Actualizar README**
 
 Agregar estado de Sprint 2:
 
@@ -1644,11 +1652,11 @@ Sprint 2: workflows locales frontend-only.
 Incluye navegacion interna, vistas operables, simulacion de pedido, configuraciones vivas e historial completo. Sigue sin backend, DB, auth, APIs ni persistencia.
 ```
 
-- [ ] **Step 4: Marcar este plan como completado**
+- [x] **Step 4: Marcar este plan como completado**
 
 Marcar los checks ejecutados de Task 11 como `[x]`.
 
-- [ ] **Step 5: Commit de cierre**
+- [x] **Step 5: Commit de cierre**
 
 ```bash
 git add README.md docs/superpowers/plans/2026-05-03-ayro-nexo-sprint-2-local-workflows.md
@@ -1656,3 +1664,13 @@ git commit -m "docs: close AYRO NEXO sprint 2 workflows"
 ```
 
 Expected: repo limpio o solo commits listos para push.
+
+Result:
+
+- `npm run lint` passed.
+- `npm run build` passed.
+- `git diff --check` passed.
+- `Select-String` for direct mock imports in `src/features` returned no results.
+- Browser QA confirmed all sidebar views navigate to the expected heading.
+- Console QA returned `0` errors and `0` warnings.
+- Mobile viewport `390x1200` had no horizontal overflow.
