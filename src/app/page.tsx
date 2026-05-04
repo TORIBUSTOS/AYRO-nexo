@@ -4,8 +4,13 @@ import { useMemo, useState } from "react"
 
 import { AyroShell } from "@/components/ayro/ayro-shell"
 import { getAyroDataset } from "@/data/source"
+import { resetDataset } from "@/domain/local-operations"
 import { ayroSettings } from "@/domain/settings"
-import type { AyroViewId, ConfiguracionLocal } from "@/domain/types"
+import type {
+  AyroDataset,
+  AyroViewId,
+  ConfiguracionLocal,
+} from "@/domain/types"
 import { ClientesView } from "@/features/clientes/clientes-view"
 import { CondicionesView } from "@/features/condiciones/condiciones-view"
 import { ConfiguracionesView } from "@/features/configuraciones/configuraciones-view"
@@ -39,7 +44,7 @@ const initialConfig: ConfiguracionLocal = {
 export default function Home() {
   const [activeView, setActiveView] = useState<AyroViewId>("dashboard")
   const [config, setConfig] = useState<ConfiguracionLocal>(initialConfig)
-  const dataset = useMemo(() => getAyroDataset(), [])
+  const [dataset, setDataset] = useState<AyroDataset>(() => getAyroDataset())
 
   const activePackages = useMemo(
     () =>
@@ -48,6 +53,11 @@ export default function Home() {
         .reduce((acc, pedido) => acc + pedido.bultos, 0),
     [dataset]
   )
+
+  const resetearDatosLocales = () => {
+    setDataset(resetDataset())
+    setConfig(initialConfig)
+  }
 
   const renderView = () => {
     switch (activeView) {
@@ -61,7 +71,11 @@ export default function Home() {
         return <CondicionesView dataset={dataset} />
       case "configuraciones":
         return (
-          <ConfiguracionesView config={config} onConfigChange={setConfig} />
+          <ConfiguracionesView
+            config={config}
+            onConfigChange={setConfig}
+            onResetLocalData={resetearDatosLocales}
+          />
         )
       case "historial":
         return <HistorialView dataset={dataset} config={config} />
@@ -76,6 +90,7 @@ export default function Home() {
       activeView={activeView}
       activePackages={activePackages}
       onNavigate={setActiveView}
+      onPrimaryAction={() => setActiveView("pedidos")}
     >
       {renderView()}
     </AyroShell>

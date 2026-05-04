@@ -11,9 +11,11 @@ import type { ConfiguracionLocal } from "@/domain/types"
 export function ConfiguracionesView({
   config,
   onConfigChange,
+  onResetLocalData,
 }: {
   config: ConfiguracionLocal
   onConfigChange: Dispatch<SetStateAction<ConfiguracionLocal>>
+  onResetLocalData?: () => void
 }) {
   return (
     <section className="mt-6 grid gap-4 xl:grid-cols-[1fr_420px]">
@@ -82,6 +84,25 @@ export function ConfiguracionesView({
               ))}
             </div>
           </div>
+
+          {onResetLocalData ? (
+            <div className="rounded-lg border border-rose-300/20 bg-rose-300/10 p-4">
+              <p className="text-sm font-semibold text-white">
+                Reset local de trabajo
+              </p>
+              <p className="mt-1 text-sm leading-5 text-rose-100/80">
+                Restaura datos mock y configuracion inicial. No afecta ningun
+                backend porque todavia no hay persistencia.
+              </p>
+              <Button
+                type="button"
+                onClick={onResetLocalData}
+                className="mt-4 h-9 rounded-lg border border-rose-300/30 bg-rose-300/10 px-3 text-sm font-semibold text-rose-100 hover:bg-rose-300/15"
+              >
+                Resetear datos locales
+              </Button>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
 

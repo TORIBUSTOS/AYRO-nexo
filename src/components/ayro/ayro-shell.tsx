@@ -16,11 +16,13 @@ export function AyroShell({
   activePackages,
   children,
   onNavigate,
+  onPrimaryAction,
 }: {
   activeView: AyroViewId
   activePackages: number
   children: ReactNode
   onNavigate: (view: AyroViewId) => void
+  onPrimaryAction?: () => void
 }) {
   const view = ayroSettings.views[activeView]
 
@@ -109,7 +111,11 @@ export function AyroShell({
               </p>
             </div>
 
-            <Button className="h-10 w-fit rounded-lg bg-cyan-300 px-4 text-sm font-semibold text-slate-950 hover:bg-cyan-200">
+            <Button
+              type="button"
+              onClick={onPrimaryAction}
+              className="h-10 w-fit rounded-lg bg-cyan-300 px-4 text-sm font-semibold text-slate-950 hover:bg-cyan-200"
+            >
               <Plus className="mr-2 h-4 w-4" />
               {ayroSettings.dashboard.primaryAction}
             </Button>
