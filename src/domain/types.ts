@@ -112,6 +112,37 @@ export type ResultadoSimulacionPedido = {
   alertaPreview?: AlertaOperativa
 }
 
+export type PedidoLocalInput = PedidoDraft & {
+  estadoInicial: PedidoEstado
+}
+
+export type PedidoEstadoUpdate = {
+  pedidoId: string
+  estado: PedidoEstado
+  responsable: string
+  detalle: string
+}
+
+export type CondicionComercialUpdate = {
+  clienteId: string
+  descuentoPermitido: number
+  plazoPermitidoDias: number
+  responsable: string
+}
+
+export type ClienteUpdate = {
+  clienteId: string
+  estado: EstadoCliente
+  responsable: string
+}
+
+export type NegociacionDecisionInput = {
+  negociacionId: string
+  decision: "aprobada" | "rechazada"
+  responsable: string
+  comentario: string
+}
+
 export type AccionOperativa = {
   id: string
   titulo: string
