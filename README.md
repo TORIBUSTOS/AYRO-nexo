@@ -98,9 +98,25 @@ Completado:
 11. Vista Historial completo con filtros por entidad.
 12. QA final desktop/mobile, consola, lint y build.
 
-Pendiente:
+Sprint 3: UI/UX operable en memoria validado.
 
-1. Definir Sprint 3: persistencia local, backend minimo o API real.
+Completado:
+
+1. Dataset local en memoria conectado desde `src/app/page.tsx`.
+2. Helpers de operaciones locales con registro de historial.
+3. Creacion local de pedidos desde evaluacion comercial.
+4. Cambio local de estado de pedidos.
+5. Aprobacion/rechazo local de negociaciones.
+6. Edicion local de condiciones comerciales por cliente.
+7. Edicion local de estado y responsable de clientes.
+8. Historial con eventos locales identificados.
+9. Reset de datos locales y configuracion inicial desde Configuraciones.
+10. QA de lint, build y frontera de datos mock.
+
+Sprint 4 posible:
+
+1. Decidir persistencia real: backend minimo, API propia o base de datos.
+2. Mantener fuera de alcance hasta validar flujo comercial completo.
 
 ## Comandos
 
@@ -121,6 +137,7 @@ http://localhost:3000
 - `BLUEPRINT.md`: mapa TORO del MVP.
 - `docs/superpowers/plans/2026-05-03-ayro-nexo-frontend-mvp-v2.md`: plan de implementacion task-by-task.
 - `docs/superpowers/plans/2026-05-03-ayro-nexo-sprint-2-local-workflows.md`: plan Sprint 2 de workflows locales.
+- `docs/superpowers/plans/2026-05-04-ayro-nexo-sprint-3-local-ux-operations.md`: plan Sprint 3 de UX operable en memoria.
 - `SPEC.md`: entidades y regla base inicial.
 - `ARQUITECTURA.md`: arquitectura conceptual.
 - `VISION.md` y `MISION.md`: direccion del producto.

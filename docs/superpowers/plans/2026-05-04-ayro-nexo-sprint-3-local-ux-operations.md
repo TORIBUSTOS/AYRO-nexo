@@ -1,6 +1,6 @@
 # AYRO NEXO Sprint 3 Local UX Operations Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Convertir AYRO NEXO de una app navegable con simulaciones a una experiencia UI/UX operable en memoria: crear pedidos, cambiar estados, aprobar/rechazar negociaciones, editar condiciones y registrar historial local sin backend ni persistencia.
 
@@ -112,7 +112,7 @@ export function createLocalId(prefix: string, count: number) {
 **Files:**
 - Modify: `src/domain/types.ts`
 
-- [ ] **Step 1: Add local operation types**
+- [x] **Step 1: Add local operation types**
 
 Agregar:
 
@@ -149,7 +149,7 @@ export type NegociacionDecisionInput = {
 }
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 npm run build
@@ -157,7 +157,7 @@ npm run build
 
 Expected: build passes.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/domain/types.ts
@@ -171,7 +171,7 @@ git commit -m "feat: add AYRO NEXO local operation types"
 **Files:**
 - Create: `src/domain/local-operations.ts`
 
-- [ ] **Step 1: Create local operations file**
+- [x] **Step 1: Create local operations file**
 
 Create helpers:
 
@@ -193,7 +193,7 @@ Each helper must:
 - never mutate arrays in place;
 - add one `EventoHistorial` when it changes data.
 
-- [ ] **Step 2: Required behavior**
+- [x] **Step 2: Required behavior**
 
 `createPedidoLocal`:
 
@@ -218,14 +218,14 @@ Each helper must:
 - sets `decisionTomada` and `comentarioDecision`;
 - appends event `Negociacion aprobada` or `Negociacion rechazada`.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 ```bash
 npm run lint
 npm run build
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/domain/local-operations.ts
@@ -240,7 +240,7 @@ git commit -m "feat: add AYRO NEXO local operation helpers"
 - Modify: `src/app/page.tsx`
 - Modify: `src/components/ayro/ayro-shell.tsx`
 
-- [ ] **Step 1: Promote dataset to state**
+- [x] **Step 1: Promote dataset to state**
 
 In `page.tsx`:
 
@@ -248,7 +248,7 @@ In `page.tsx`:
 const [dataset, setDataset] = useState<AyroDataset>(() => getAyroDataset())
 ```
 
-- [ ] **Step 2: Add operation callbacks**
+- [x] **Step 2: Add operation callbacks**
 
 Add callbacks:
 
@@ -263,7 +263,7 @@ resetearDatosLocales()
 
 Callbacks should call `setDataset((current) => helper(current, input))`.
 
-- [ ] **Step 3: Add shell primary action**
+- [x] **Step 3: Add shell primary action**
 
 In `ayro-shell.tsx`, add optional prop:
 
@@ -273,14 +273,14 @@ onPrimaryAction?: () => void
 
 The `Nuevo Pedido` button should call it.
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 ```bash
 npm run lint
 npm run build
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/app/page.tsx src/components/ayro/ayro-shell.tsx
@@ -296,7 +296,7 @@ git commit -m "feat: wire AYRO NEXO local dataset state"
 - Modify: `src/features/dashboard/dashboard-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Create real local order from Pedidos**
+- [x] **Step 1: Create real local order from Pedidos**
 
 `PedidosView` should receive:
 
@@ -320,11 +320,11 @@ When clicked:
   - `Armado` as fallback;
 - show the new order in list/dashboard until refresh.
 
-- [ ] **Step 2: Header Nuevo Pedido navigates to Pedidos**
+- [x] **Step 2: Header Nuevo Pedido navigates to Pedidos**
 
 `Nuevo Pedido` in shell should switch active view to `pedidos`.
 
-- [ ] **Step 3: Update order state controls**
+- [x] **Step 3: Update order state controls**
 
 Each order card in `PedidosView` should expose state buttons:
 
@@ -334,14 +334,14 @@ Armado / Negociacion / Confirmado / Entregado
 
 Clicking updates local state and appends history.
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 ```bash
 npm run lint
 npm run build
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/app/page.tsx src/features/pedidos/pedidos-view.tsx src/features/dashboard/dashboard-view.tsx
@@ -356,7 +356,7 @@ git commit -m "feat: add AYRO NEXO local pedido operations"
 - Modify: `src/features/negociaciones/negociaciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Add decision props**
+- [x] **Step 1: Add decision props**
 
 `NegociacionesView` should receive:
 
@@ -364,7 +364,7 @@ git commit -m "feat: add AYRO NEXO local pedido operations"
 onDecision: (input: NegociacionDecisionInput) => void
 ```
 
-- [ ] **Step 2: Add approve/reject buttons**
+- [x] **Step 2: Add approve/reject buttons**
 
 For pending/bloqueada cards, render:
 
@@ -375,14 +375,14 @@ Rechazar
 
 Clicking updates negotiation state and appends history.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 ```bash
 npm run lint
 npm run build
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/app/page.tsx src/features/negociaciones/negociaciones-view.tsx
@@ -397,7 +397,7 @@ git commit -m "feat: add AYRO NEXO local negotiation decisions"
 - Modify: `src/features/condiciones/condiciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Add edit controls**
+- [x] **Step 1: Add edit controls**
 
 Each client condition card should allow editing:
 
@@ -406,7 +406,7 @@ descuentoPermitido
 plazoPermitidoDias
 ```
 
-- [ ] **Step 2: Save locally**
+- [x] **Step 2: Save locally**
 
 Add button:
 
@@ -422,11 +422,11 @@ onUpdateCondicion(input)
 
 and appends history.
 
-- [ ] **Step 3: Verify alert recalculation**
+- [x] **Step 3: Verify alert recalculation**
 
 After editing a client without conditions, Dashboard alert count should change according to rules.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 ```bash
 npm run lint
@@ -443,7 +443,7 @@ git commit -m "feat: add AYRO NEXO local condition editing"
 - Modify: `src/features/clientes/clientes-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Add basic editable fields**
+- [x] **Step 1: Add basic editable fields**
 
 Allow local changes to:
 
@@ -452,7 +452,7 @@ estado
 responsable
 ```
 
-- [ ] **Step 2: Save locally**
+- [x] **Step 2: Save locally**
 
 Button:
 
@@ -462,7 +462,7 @@ Guardar cliente
 
 Calls `onUpdateCliente(input)` and appends history.
 
-- [ ] **Step 3: Verify and commit**
+- [x] **Step 3: Verify and commit**
 
 ```bash
 npm run lint
@@ -480,7 +480,7 @@ git commit -m "feat: add AYRO NEXO local client editing"
 - Modify: `src/features/configuraciones/configuraciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Historial highlights local events**
+- [x] **Step 1: Historial highlights local events**
 
 Events with id prefix `evt_local_` should show a local badge:
 
@@ -488,7 +488,7 @@ Events with id prefix `evt_local_` should show a local badge:
 Local
 ```
 
-- [ ] **Step 2: Add reset local data control**
+- [x] **Step 2: Add reset local data control**
 
 In Configuraciones, add:
 
@@ -498,7 +498,7 @@ Resetear datos locales
 
 It restores dataset from `getAyroDataset()` and config from `initialConfig`.
 
-- [ ] **Step 3: Verify and commit**
+- [x] **Step 3: Verify and commit**
 
 ```bash
 npm run lint
@@ -516,7 +516,7 @@ git commit -m "feat: add AYRO NEXO local history and reset UX"
 - Modify: `README.md`
 - Modify: this plan
 
-- [ ] **Step 1: Full checks**
+- [x] **Step 1: Full checks**
 
 ```bash
 npm run lint
@@ -532,7 +532,7 @@ Expected:
 - diff check passes;
 - no direct mock imports in features.
 
-- [ ] **Step 2: Browser QA**
+- [x] **Step 2: Browser QA**
 
 Validate:
 
@@ -547,7 +547,7 @@ Validate:
 - mobile has no horizontal overflow;
 - console has no errors.
 
-- [ ] **Step 3: Docs**
+- [x] **Step 3: Docs**
 
 Update `README.md`:
 
@@ -557,7 +557,7 @@ Sprint 3: UI/UX operable en memoria validado.
 Incluye acciones locales para pedidos, negociaciones, clientes, condiciones, historial y reset. Sigue sin backend, DB, auth, APIs ni persistencia.
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add README.md docs/superpowers/plans/2026-05-04-ayro-nexo-sprint-3-local-ux-operations.md
