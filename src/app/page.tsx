@@ -8,6 +8,7 @@ import {
   createPedidoLocal,
   decidirNegociacion,
   resetDataset,
+  updateCliente,
   updateCondicionComercial,
   updatePedidoEstado,
 } from "@/domain/local-operations"
@@ -15,6 +16,7 @@ import { ayroSettings } from "@/domain/settings"
 import type {
   AyroDataset,
   AyroViewId,
+  ClienteUpdate,
   CondicionComercialUpdate,
   ConfiguracionLocal,
   NegociacionDecisionInput,
@@ -85,10 +87,20 @@ export default function Home() {
     setDataset((current) => updateCondicionComercial(current, input))
   }
 
+  const actualizarCliente = (input: ClienteUpdate) => {
+    setDataset((current) => updateCliente(current, input))
+  }
+
   const renderView = () => {
     switch (activeView) {
       case "clientes":
-        return <ClientesView dataset={dataset} />
+        return (
+          <ClientesView
+            dataset={dataset}
+            config={config}
+            onUpdateCliente={actualizarCliente}
+          />
+        )
       case "pedidos":
         return (
           <PedidosView
