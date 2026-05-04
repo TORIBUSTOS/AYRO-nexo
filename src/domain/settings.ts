@@ -1,4 +1,5 @@
 import type {
+  AyroViewId,
   PedidoEstado,
   PrioridadOperativa,
   SeveridadAlerta,
@@ -36,9 +37,9 @@ export type DashboardMetricKey =
   | "alertasAbiertas"
 
 type NavigationItem = {
+  id: AyroViewId
   label: string
   icon: AyroIconKey
-  active?: boolean
 }
 
 type ModulePreview = {
@@ -86,6 +87,49 @@ export const ayroSettings = {
       responsible: "Responsable",
       state: "Estado",
     },
+  },
+  views: {
+    dashboard: {
+      title: "Operacion AYRO en vivo",
+      description:
+        "Pedidos, negociaciones, condiciones y alertas en una sola vista operativa.",
+    },
+    clientes: {
+      title: "Clientes",
+      description:
+        "Estado comercial, responsable y condiciones operativas por cliente.",
+    },
+    pedidos: {
+      title: "Pedidos",
+      description:
+        "Carga simulada, seguimiento y evaluacion comercial de pedidos.",
+    },
+    negociaciones: {
+      title: "Negociaciones",
+      description: "Excepciones comerciales, aprobaciones y bloqueos activos.",
+    },
+    condiciones: {
+      title: "Condiciones Comerciales",
+      description:
+        "Limites comerciales por cliente y brechas que requieren carga.",
+    },
+    historial: {
+      title: "Historial",
+      description:
+        "Linea de tiempo completa de eventos comerciales y operativos.",
+    },
+    configuraciones: {
+      title: "Configuraciones",
+      description:
+        "Valores ajustables del sistema para evitar cambios chicos en codigo.",
+    },
+  },
+  configuracionLocal: {
+    title: "Configuracion local simulada",
+    description:
+      "Estos valores todavia no persisten. Preparan el modelo configurable del sistema.",
+    noPersistenceLabel: "Sin persistencia",
+    thresholdToggleLabel: "Alternar umbral 24h/48h",
   },
   operational: {
     pedidoSinRespuestaHoras: 24,
@@ -140,13 +184,13 @@ export const ayroSettings = {
     },
   ] satisfies DashboardMetric[],
   navigation: [
-    { label: "Dashboard", icon: "layout", active: true },
-    { label: "Clientes", icon: "building" },
-    { label: "Pedidos", icon: "clipboard" },
-    { label: "Negociaciones", icon: "handshake" },
-    { label: "Condiciones", icon: "sliders" },
-    { label: "Historial", icon: "history" },
-    { label: "Configuraciones", icon: "settings" },
+    { id: "dashboard", label: "Dashboard", icon: "layout" },
+    { id: "clientes", label: "Clientes", icon: "building" },
+    { id: "pedidos", label: "Pedidos", icon: "clipboard" },
+    { id: "negociaciones", label: "Negociaciones", icon: "handshake" },
+    { id: "condiciones", label: "Condiciones", icon: "sliders" },
+    { id: "historial", label: "Historial", icon: "history" },
+    { id: "configuraciones", label: "Configuraciones", icon: "settings" },
   ] satisfies NavigationItem[],
   modules: [
     {

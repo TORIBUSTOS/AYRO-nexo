@@ -10,6 +10,15 @@ export type EstadoNegociacion = "pendiente" | "aprobada" | "rechazada" | "bloque
 
 export type EstadoAlerta = "abierta" | "resuelta"
 
+export type AyroViewId =
+  | "dashboard"
+  | "clientes"
+  | "pedidos"
+  | "negociaciones"
+  | "condiciones"
+  | "historial"
+  | "configuraciones"
+
 export type Cliente = {
   id: string
   nombre: string
@@ -76,6 +85,31 @@ export type EvaluacionPedido = {
   estadoSugerido: PedidoEstado | "Bloqueado"
   motivo: string
   requiereAprobacion: boolean
+}
+
+export type ConfiguracionLocal = {
+  responsables: string[]
+  pedidoSinRespuestaHoras: number
+  estadosPedido: Record<PedidoEstado, string>
+  prioridades: Record<PrioridadOperativa, string>
+  severidades: Record<SeveridadAlerta, string>
+}
+
+export type PedidoDraft = {
+  clienteId: string
+  bultos: number
+  fecha: string
+  prioridad: PrioridadOperativa
+  responsable: string
+  observaciones: string
+  descuentoSolicitado: number
+  plazoSolicitadoDias: number
+}
+
+export type ResultadoSimulacionPedido = {
+  draft: PedidoDraft
+  evaluacion: EvaluacionPedido
+  alertaPreview?: AlertaOperativa
 }
 
 export type AccionOperativa = {
