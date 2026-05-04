@@ -791,50 +791,64 @@ Debe:
 
 ### Task 1: Data source, tipos y settings
 
-- Crear `src/data/source.ts`.
-- Agregar `AyroViewId`.
-- Agregar `ConfiguracionLocal`.
-- Agregar `PedidoDraft`.
-- Agregar `ResultadoSimulacionPedido`.
-- Centralizar navegación y labels.
+- [x] Crear `src/data/source.ts`.
+- [x] Agregar `AyroViewId`.
+- [x] Agregar `ConfiguracionLocal`.
+- [x] Agregar `PedidoDraft`.
+- [x] Agregar `ResultadoSimulacionPedido`.
+- [x] Centralizar navegación y labels.
+
+Resultado: completado en commit `3a1765a`.
 
 ### Task 2: UI compartida
 
-- Crear `icon-map.ts`.
-- Crear `shared.tsx`.
-- Crear `ayro-shell.tsx`.
+- [x] Crear `icon-map.ts`.
+- [x] Crear `shared.tsx`.
+- [x] Crear `ayro-shell.tsx`.
+
+Resultado: completado en commit `0d9b547`.
 
 ### Task 3: Extraer dashboard
 
-- Mover dashboard a `features/dashboard/dashboard-view.tsx`.
-- `page.tsx` queda liviano.
-- Dashboard recibe `config`.
+- [x] Mover dashboard a `features/dashboard/dashboard-view.tsx`.
+- [x] `page.tsx` queda liviano.
+- [x] Dashboard recibe `config`.
 
-### Task 4: Configuración local global
+Resultado: completado en commit `634214f`.
 
-- Crear `initialConfig`.
-- Pasar `config` a Dashboard, Pedidos, Historial y Configuraciones.
-- `ConfiguracionesView` modifica `config`.
+### Task 4: Reglas configurables
 
-### Task 5: Reglas configurables
+- [x] `generarAlertasOperativas` usa `pedidoSinRespuestaHoras`.
+- [x] `getDashboardData` recibe config.
+- [x] Alertas cambian al cambiar configuración.
 
-- `generarAlertasOperativas` usa `pedidoSinRespuestaHoras`.
-- `getDashboardData` recibe config.
-- Alertas cambian al cambiar configuración.
+Resultado: completado en commit `9ad9f03`.
+
+### Task 5: Configuración local global
+
+- [x] Crear `initialConfig`.
+- [x] Pasar `config` a Dashboard y preparar propagacion a vistas.
+- [x] `ConfiguracionesView` modifica `config`.
+
+Resultado: completado en commit `264a30f`.
 
 ### Task 6: Clientes View
 
-- Cards por cliente.
-- Detalle mínimo.
-- Condición completa/incompleta.
+- [x] Cards por cliente.
+- [x] Detalle mínimo.
+- [x] Condición completa/incompleta.
+
+Resultado: completado en commit `d54922e`.
 
 ### Task 7: Pedidos View
 
-- Filtros.
-- Listado.
-- Formulario de simulación.
-- Evaluación local.
-- Resultado visible.
+- [x] Filtros.
+- [x] Listado.
+- [x] Formulario de simulación.
+- [x] Evaluación local.
+- [x] Resultado visible.
+
+Resultado: completado en commit `d54922e`.
 
 ### Task 8: Negociaciones View
 
@@ -955,7 +969,7 @@ pero con menos riesgo, porque el flujo ya habrá sido probado.
 - Modify: `src/domain/types.ts`
 - Modify: `src/domain/settings.ts`
 
-- [ ] **Step 1: Crear frontera unica de datos**
+- [x] **Step 1: Crear frontera unica de datos**
 
 Crear `src/data/source.ts`:
 
@@ -977,7 +991,7 @@ Solo page.tsx puede llamar getAyroDataset().
 Ninguna feature importa mock-index.ts.
 ```
 
-- [ ] **Step 2: Agregar tipos de navegacion y configuracion**
+- [x] **Step 2: Agregar tipos de navegacion y configuracion**
 
 Agregar en `src/domain/types.ts`:
 
@@ -1017,7 +1031,7 @@ export type ResultadoSimulacionPedido = {
 }
 ```
 
-- [ ] **Step 3: Convertir navegacion a ids estables**
+- [x] **Step 3: Convertir navegacion a ids estables**
 
 En `src/domain/settings.ts`, importar `AyroViewId` y cambiar `NavigationItem`:
 
@@ -1043,7 +1057,7 @@ navigation: [
 ] satisfies NavigationItem[],
 ```
 
-- [ ] **Step 4: Agregar labels de vistas y configuracion local**
+- [x] **Step 4: Agregar labels de vistas y configuracion local**
 
 Agregar en `ayroSettings`:
 
@@ -1086,7 +1100,7 @@ configuracionLocal: {
 },
 ```
 
-- [ ] **Step 5: Verificar y commitear**
+- [x] **Step 5: Verificar y commitear**
 
 ```bash
 npm run build
@@ -1105,11 +1119,11 @@ Expected: build sin errores TypeScript y commit creado.
 - Create: `src/components/ayro/shared.tsx`
 - Create: `src/components/ayro/ayro-shell.tsx`
 
-- [ ] **Step 1: Crear icon map central**
+- [x] **Step 1: Crear icon map central**
 
 Crear `src/components/ayro/icon-map.ts` con `iconMap` y `BrandIcon`, moviendo el mapping actual de `src/app/page.tsx`.
 
-- [ ] **Step 2: Crear badges y rows compartidos**
+- [x] **Step 2: Crear badges y rows compartidos**
 
 Crear `src/components/ayro/shared.tsx` con:
 
@@ -1122,7 +1136,7 @@ KeyValueRow
 
 Los badges deben usar `estadoPedidoConfig`, `prioridadConfig` y `severidadConfig`.
 
-- [ ] **Step 3: Crear shell navegable**
+- [x] **Step 3: Crear shell navegable**
 
 Crear `src/components/ayro/ayro-shell.tsx` como client component con props:
 
@@ -1137,7 +1151,7 @@ Crear `src/components/ayro/ayro-shell.tsx` como client component con props:
 
 Debe renderizar sidebar, header por `ayroSettings.views[activeView]`, pulso operativo y contenido.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run build
@@ -1155,7 +1169,7 @@ Expected: build sin errores.
 - Create: `src/features/dashboard/dashboard-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Mover dashboard a feature**
+- [x] **Step 1: Mover dashboard a feature**
 
 Crear `src/features/dashboard/dashboard-view.tsx` con:
 
@@ -1183,7 +1197,7 @@ OperationalAlert
 ModulePreview
 ```
 
-- [ ] **Step 2: Convertir page en entrypoint de estado**
+- [x] **Step 2: Convertir page en entrypoint de estado**
 
 Modificar `src/app/page.tsx` con:
 
@@ -1245,7 +1259,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 3: Verificar y commitear**
+- [x] **Step 3: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1264,7 +1278,7 @@ Expected: dashboard sigue igual visualmente, checks pasan y `src/features/dashbo
 - Modify: `src/domain/rules.ts`
 - Modify: `src/domain/selectors.ts`
 
-- [ ] **Step 1: Hacer configurable el umbral sin respuesta**
+- [x] **Step 1: Hacer configurable el umbral sin respuesta**
 
 Modificar `generarAlertasOperativas`:
 
@@ -1280,7 +1294,7 @@ export function generarAlertasOperativas(
 }
 ```
 
-- [ ] **Step 2: Pasar config por cola, metricas y dashboard data**
+- [x] **Step 2: Pasar config por cola, metricas y dashboard data**
 
 Actualizar firmas:
 
@@ -1291,7 +1305,7 @@ getDashboardData(dataset, config?)
 getHistorialOperativo(dataset, config?)
 ```
 
-- [ ] **Step 3: Agregar historial completo**
+- [x] **Step 3: Agregar historial completo**
 
 Agregar en `src/domain/selectors.ts`:
 
@@ -1306,7 +1320,7 @@ export function getHistorialOperativo(
 
 `getDashboardData` debe devolver `historialCompleto`.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1325,7 +1339,7 @@ Expected: dashboard compila y sigue usando reglas centralizadas.
 - Create: `src/features/configuraciones/configuraciones-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Crear vista Configuraciones**
+- [x] **Step 1: Crear vista Configuraciones**
 
 Crear `ConfiguracionesView` con props:
 
@@ -1338,7 +1352,7 @@ Crear `ConfiguracionesView` con props:
 
 Debe mostrar responsables, umbral sin respuesta, labels de estados, prioridades, severidades y aviso `Sin persistencia`.
 
-- [ ] **Step 2: Agregar control vivo 24h/48h**
+- [x] **Step 2: Agregar control vivo 24h/48h**
 
 El boton debe ejecutar:
 
@@ -1350,7 +1364,7 @@ onConfigChange((current) => ({
 }))
 ```
 
-- [ ] **Step 3: Pasar setConfig desde page**
+- [x] **Step 3: Pasar setConfig desde page**
 
 En `src/app/page.tsx`, cambiar:
 
@@ -1366,7 +1380,7 @@ const [config, setConfig] = useState<ConfiguracionLocal>(initialConfig)
 
 Agregar `renderView()` con caso `configuraciones`.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1386,20 +1400,20 @@ Expected: Configuraciones alterna el umbral en memoria.
 - Modify: `src/domain/selectors.ts`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Agregar selector de clientes**
+- [x] **Step 1: Agregar selector de clientes**
 
 Agregar `getClientesResumen(dataset)` con pedidos activos, bultos activos y condicion completa/incompleta.
 
-- [ ] **Step 2: Crear vista Clientes**
+- [x] **Step 2: Crear vista Clientes**
 
 Debe mostrar nombre, estado, responsable, datos operativos, pedidos activos, bultos activos, condiciones y bloque "Ver detalle" expandible o visible.
 
-- [ ] **Step 3: Conectar navegación**
+- [x] **Step 3: Conectar navegación**
 
 Agregar caso `clientes` en `renderView()`.
 Pasar `dataset` por props. No importar `mock-index.ts` desde la vista.
 
-- [ ] **Step 4: Verificar y commitear**
+- [x] **Step 4: Verificar y commitear**
 
 ```bash
 npm run lint
@@ -1418,7 +1432,7 @@ Expected: Clientes muestra datos mock reales y condiciones incompletas.
 - Create: `src/features/pedidos/pedidos-view.tsx`
 - Modify: `src/app/page.tsx`
 
-- [ ] **Step 1: Crear formulario local de simulacion**
+- [x] **Step 1: Crear formulario local de simulacion**
 
 Campos obligatorios:
 
@@ -1433,7 +1447,7 @@ plazoSolicitadoDias
 observaciones
 ```
 
-- [ ] **Step 2: Evaluar draft con regla real**
+- [x] **Step 2: Evaluar draft con regla real**
 
 Construir `PedidoDraft`, buscar cliente y usar:
 
@@ -1443,7 +1457,7 @@ const evaluacion = evaluarPedido(draft, cliente)
 
 Mostrar estado sugerido, motivo y accion sugerida.
 
-- [ ] **Step 3: Agregar filtros/listado**
+- [x] **Step 3: Agregar filtros/listado**
 
 Mantener filtros por:
 
@@ -1451,12 +1465,12 @@ Mantener filtros por:
 Todos / Armado / Negociacion / Confirmado / Entregado
 ```
 
-- [ ] **Step 4: Conectar navegación**
+- [x] **Step 4: Conectar navegación**
 
 Agregar caso `pedidos` en `renderView()` y pasar `config`.
 Pasar `dataset` por props. No importar `mock-index.ts` desde la vista.
 
-- [ ] **Step 5: Verificar y commitear**
+- [x] **Step 5: Verificar y commitear**
 
 ```bash
 npm run lint

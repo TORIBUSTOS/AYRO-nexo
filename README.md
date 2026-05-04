@@ -81,6 +81,26 @@ Completado:
 6. Refactor de `src/app/page.tsx` para usar datos derivados y configuracion UI sin hardcodeos.
 7. QA visual desktop/mobile, consola, lint y build.
 
+Sprint 2: Workflows locales frontend-only en progreso.
+
+Completado:
+
+1. Frontera de datos en `src/data/source.ts` para reemplazar mocks por datos reales sin reescribir vistas.
+2. Tipos y settings para navegacion interna, configuracion local y simulacion de pedidos.
+3. Componentes compartidos de AYRO: shell, icon map, badges y rows.
+4. Dashboard extraido a `src/features/dashboard/dashboard-view.tsx`.
+5. Reglas y selectors configurables por `ConfiguracionLocal`.
+6. Vista Configuraciones con toggle local 24h/48h sin persistencia.
+7. Vista Clientes con resumen operativo y detalle basico.
+8. Vista Pedidos con filtros y simulacion local usando `evaluarPedido`.
+
+Pendiente Sprint 2:
+
+1. Vista Negociaciones.
+2. Vista Condiciones Comerciales.
+3. Vista Historial completo.
+4. QA visual final y cierre documental.
+
 ## Comandos
 
 ```bash
@@ -99,6 +119,7 @@ http://localhost:3000
 
 - `BLUEPRINT.md`: mapa TORO del MVP.
 - `docs/superpowers/plans/2026-05-03-ayro-nexo-frontend-mvp-v2.md`: plan de implementacion task-by-task.
+- `docs/superpowers/plans/2026-05-03-ayro-nexo-sprint-2-local-workflows.md`: plan Sprint 2 de workflows locales.
 - `SPEC.md`: entidades y regla base inicial.
 - `ARQUITECTURA.md`: arquitectura conceptual.
 - `VISION.md` y `MISION.md`: direccion del producto.
