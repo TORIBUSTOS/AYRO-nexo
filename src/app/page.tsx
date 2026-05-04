@@ -6,8 +6,10 @@ import { AyroShell } from "@/components/ayro/ayro-shell"
 import { getAyroDataset } from "@/data/source"
 import { ayroSettings } from "@/domain/settings"
 import type { AyroViewId, ConfiguracionLocal } from "@/domain/types"
+import { ClientesView } from "@/features/clientes/clientes-view"
 import { ConfiguracionesView } from "@/features/configuraciones/configuraciones-view"
 import { DashboardView } from "@/features/dashboard/dashboard-view"
+import { PedidosView } from "@/features/pedidos/pedidos-view"
 
 const initialConfig: ConfiguracionLocal = {
   responsables: ayroSettings.operational.responsables,
@@ -46,13 +48,15 @@ export default function Home() {
 
   const renderView = () => {
     switch (activeView) {
+      case "clientes":
+        return <ClientesView dataset={dataset} />
+      case "pedidos":
+        return <PedidosView dataset={dataset} config={config} />
       case "configuraciones":
         return (
           <ConfiguracionesView config={config} onConfigChange={setConfig} />
         )
       case "dashboard":
-      case "clientes":
-      case "pedidos":
       case "negociaciones":
       case "condiciones":
       case "historial":

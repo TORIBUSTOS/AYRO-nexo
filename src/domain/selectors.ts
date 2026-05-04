@@ -115,6 +115,30 @@ export function getClienteNombre(dataset: AyroDataset, clienteId: string) {
   )
 }
 
+export function getClientesResumen(dataset: AyroDataset) {
+  return dataset.clientes.map((cliente) => {
+    const pedidos = dataset.pedidos.filter(
+      (pedido) => pedido.clienteId === cliente.id
+    )
+    const pedidosActivos = pedidos.filter(
+      (pedido) => pedido.estado !== "Entregado"
+    )
+
+    return {
+      cliente,
+      pedidos,
+      pedidosActivos: pedidosActivos.length,
+      totalBultosActivos: pedidosActivos.reduce(
+        (acc, pedido) => acc + pedido.bultos,
+        0
+      ),
+      tieneCondiciones:
+        cliente.descuentoPermitido !== null &&
+        cliente.plazoPermitidoDias !== null,
+    }
+  })
+}
+
 export function getHistorialReciente(historial: EventoHistorial[]) {
   return historial.slice(0, 5)
 }
