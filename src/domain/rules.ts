@@ -2,10 +2,12 @@ import type {
   AccionOperativa,
   AlertaOperativa,
   Cliente,
+  ConfiguracionLocal,
   EvaluacionPedido,
   EventoHistorial,
   Negociacion,
   Pedido,
+  PedidoDraft,
   PrioridadOperativa,
 } from "@/domain/types"
 
@@ -16,7 +18,7 @@ const prioridadRank: Record<PrioridadOperativa, number> = {
 }
 
 export function evaluarPedido(
-  pedido: Pedido,
+  pedido: Pedido | PedidoDraft,
   cliente: Cliente | undefined
 ): EvaluacionPedido {
   if (!cliente) {
@@ -64,8 +66,11 @@ export function evaluarPedido(
 export function generarAlertasOperativas(
   pedidos: Pedido[],
   clientes: Cliente[],
-  negociaciones: Negociacion[]
+  negociaciones: Negociacion[],
+  config?: Pick<ConfiguracionLocal, "pedidoSinRespuestaHoras">
 ): AlertaOperativa[] {
+  const umbralSinRespuesta = config?.pedidoSinRespuestaHoras ?? 24
+
   const alertasClientes = clientes
     .filter(
       (cliente) =>
@@ -104,7 +109,10 @@ export function generarAlertasOperativas(
       })
     }
 
-    if (pedido.ultimaRespuestaHoras > 24 && pedido.estado !== "Entregado") {
+    if (
+      pedido.ultimaRespuestaHoras > umbralSinRespuesta &&
+      pedido.estado !== "Entregado"
+    ) {
       alertas.push({
         id: `alert_respuesta_${pedido.id}`,
         tipo: "pedido-sin-respuesta",
@@ -143,9 +151,15 @@ export function generarAlertasOperativas(
 export function construirColaAccion(
   pedidos: Pedido[],
   clientes: Cliente[],
-  negociaciones: Negociacion[]
+  negociaciones: Negociacion[],
+  config?: Pick<ConfiguracionLocal, "pedidoSinRespuestaHoras">
 ): AccionOperativa[] {
-  const alertas = generarAlertasOperativas(pedidos, clientes, negociaciones)
+  const alertas = generarAlertasOperativas(
+    pedidos,
+    clientes,
+    negociaciones,
+    config
+  )
   const accionesDesdeAlertas = alertas.map<AccionOperativa>((alerta) => ({
     id: `accion_${alerta.id}`,
     titulo: alerta.titulo,

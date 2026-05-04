@@ -1,6 +1,7 @@
 import type {
   AlertaOperativa,
   AyroDataset,
+  ConfiguracionLocal,
   EventoHistorial,
   Pedido,
   PedidoEstado,
@@ -27,7 +28,10 @@ export function getPedidosPorEstado(pedidos: Pedido[]) {
   )
 }
 
-export function getMetricasOperativas(dataset: AyroDataset) {
+export function getMetricasOperativas(
+  dataset: AyroDataset,
+  config?: ConfiguracionLocal
+) {
   const pedidosActivos = dataset.pedidos.filter(
     (pedido) => pedido.estado !== "Entregado"
   )
@@ -46,7 +50,8 @@ export function getMetricasOperativas(dataset: AyroDataset) {
   const alertasAbiertas = generarAlertasOperativas(
     dataset.pedidos,
     dataset.clientes,
-    dataset.negociaciones
+    dataset.negociaciones,
+    config
   ).filter((alerta) => alerta.estado === "abierta")
 
   return {
@@ -74,26 +79,32 @@ export function getAlertasPorSeveridad(alertas: AlertaOperativa[]) {
   )
 }
 
-export function getDashboardData(dataset: AyroDataset) {
+export function getDashboardData(
+  dataset: AyroDataset,
+  config?: ConfiguracionLocal
+) {
   const alertas = generarAlertasOperativas(
     dataset.pedidos,
     dataset.clientes,
-    dataset.negociaciones
+    dataset.negociaciones,
+    config
   )
   const colaAccion = construirColaAccion(
     dataset.pedidos,
     dataset.clientes,
-    dataset.negociaciones
+    dataset.negociaciones,
+    config
   )
   const historial = generarHistorialSimulado(dataset.historial, alertas)
 
   return {
-    metricas: getMetricasOperativas(dataset),
+    metricas: getMetricasOperativas(dataset, config),
     pedidosPorEstado: getPedidosPorEstado(dataset.pedidos),
     alertas,
     alertasPorSeveridad: getAlertasPorSeveridad(alertas),
     colaAccion,
     historialReciente: historial.slice(0, 5),
+    historialCompleto: historial,
   }
 }
 
@@ -106,4 +117,11 @@ export function getClienteNombre(dataset: AyroDataset, clienteId: string) {
 
 export function getHistorialReciente(historial: EventoHistorial[]) {
   return historial.slice(0, 5)
+}
+
+export function getHistorialOperativo(
+  dataset: AyroDataset,
+  config?: ConfiguracionLocal
+) {
+  return getDashboardData(dataset, config).historialCompleto
 }

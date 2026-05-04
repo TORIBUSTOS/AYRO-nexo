@@ -27,11 +27,12 @@ const dashboardLabels = ayroSettings.dashboard.labels
 
 export function DashboardView({
   dataset,
+  config,
 }: {
   dataset: AyroDataset
   config: ConfiguracionLocal
 }) {
-  const dashboardData = getDashboardData(dataset)
+  const dashboardData = getDashboardData(dataset, config)
   const pedidoEstados = Object.keys(
     dashboardData.pedidosPorEstado
   ) as PedidoEstado[]
