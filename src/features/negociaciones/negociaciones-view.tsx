@@ -1,10 +1,12 @@
 import { KeyValueRow, PriorityBadge } from "@/components/ayro/shared"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getClienteNombre } from "@/domain/selectors"
 import type {
   AyroDataset,
   EstadoNegociacion,
   Negociacion,
+  NegociacionDecisionInput,
   Pedido,
 } from "@/domain/types"
 import { cn } from "@/lib/utils"
@@ -42,7 +44,13 @@ const estadoConfig: Record<
   },
 }
 
-export function NegociacionesView({ dataset }: { dataset: AyroDataset }) {
+export function NegociacionesView({
+  dataset,
+  onDecision,
+}: {
+  dataset: AyroDataset
+  onDecision: (input: NegociacionDecisionInput) => void
+}) {
   return (
     <section className="mt-6 grid gap-4 xl:grid-cols-2">
       {estadosNegociacion.map((estado) => {
@@ -79,6 +87,7 @@ export function NegociacionesView({ dataset }: { dataset: AyroDataset }) {
                     dataset={dataset}
                     negociacion={negociacion}
                     accionSugerida={config.accion}
+                    onDecision={onDecision}
                   />
                 ))
               ) : (
@@ -98,10 +107,12 @@ function NegociacionCard({
   dataset,
   negociacion,
   accionSugerida,
+  onDecision,
 }: {
   dataset: AyroDataset
   negociacion: Negociacion
   accionSugerida: string
+  onDecision: (input: NegociacionDecisionInput) => void
 }) {
   const pedido = dataset.pedidos.find(
     (item) => item.id === negociacion.pedidoId
@@ -109,6 +120,22 @@ function NegociacionCard({
   const cliente = pedido
     ? getClienteNombre(dataset, pedido.clienteId)
     : "Cliente sin identificar"
+  const puedeDecidir =
+    negociacion.estado === "pendiente" || negociacion.estado === "bloqueada"
+
+  const registrarDecision = (
+    decision: NegociacionDecisionInput["decision"]
+  ) => {
+    onDecision({
+      negociacionId: negociacion.id,
+      decision,
+      responsable: negociacion.responsableAprobacion,
+      comentario:
+        decision === "aprobada"
+          ? "Excepcion aprobada para continuar el pedido."
+          : "Excepcion rechazada; requiere ajuste comercial.",
+    })
+  }
 
   return (
     <article className="rounded-lg border border-white/10 bg-slate-950/60 p-4">
@@ -138,6 +165,25 @@ function NegociacionCard({
       <p className="mt-3 rounded-lg border border-cyan-300/20 bg-cyan-300/10 p-3 text-sm text-cyan-100">
         Accion sugerida: {accionSugerida}
       </p>
+
+      {puedeDecidir ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Button
+            type="button"
+            onClick={() => registrarDecision("aprobada")}
+            className="h-8 rounded-lg border border-emerald-300/30 bg-emerald-300/15 px-3 text-xs font-semibold text-emerald-100 hover:bg-emerald-300/20"
+          >
+            Aprobar
+          </Button>
+          <Button
+            type="button"
+            onClick={() => registrarDecision("rechazada")}
+            className="h-8 rounded-lg border border-rose-300/30 bg-rose-300/15 px-3 text-xs font-semibold text-rose-100 hover:bg-rose-300/20"
+          >
+            Rechazar
+          </Button>
+        </div>
+      ) : null}
 
       {negociacion.comentarioDecision ? (
         <p className="mt-3 text-sm leading-5 text-slate-400">

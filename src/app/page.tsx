@@ -4,12 +4,22 @@ import { useMemo, useState } from "react"
 
 import { AyroShell } from "@/components/ayro/ayro-shell"
 import { getAyroDataset } from "@/data/source"
-import { resetDataset } from "@/domain/local-operations"
+import {
+  createPedidoLocal,
+  decidirNegociacion,
+  resetDataset,
+  updateCondicionComercial,
+  updatePedidoEstado,
+} from "@/domain/local-operations"
 import { ayroSettings } from "@/domain/settings"
 import type {
   AyroDataset,
   AyroViewId,
+  CondicionComercialUpdate,
   ConfiguracionLocal,
+  NegociacionDecisionInput,
+  PedidoEstadoUpdate,
+  PedidoLocalInput,
 } from "@/domain/types"
 import { ClientesView } from "@/features/clientes/clientes-view"
 import { CondicionesView } from "@/features/condiciones/condiciones-view"
@@ -59,16 +69,49 @@ export default function Home() {
     setConfig(initialConfig)
   }
 
+  const crearPedidoLocal = (input: PedidoLocalInput) => {
+    setDataset((current) => createPedidoLocal(current, input))
+  }
+
+  const cambiarEstadoPedido = (input: PedidoEstadoUpdate) => {
+    setDataset((current) => updatePedidoEstado(current, input))
+  }
+
+  const decidirNegociacionLocal = (input: NegociacionDecisionInput) => {
+    setDataset((current) => decidirNegociacion(current, input))
+  }
+
+  const actualizarCondicionComercial = (input: CondicionComercialUpdate) => {
+    setDataset((current) => updateCondicionComercial(current, input))
+  }
+
   const renderView = () => {
     switch (activeView) {
       case "clientes":
         return <ClientesView dataset={dataset} />
       case "pedidos":
-        return <PedidosView dataset={dataset} config={config} />
+        return (
+          <PedidosView
+            dataset={dataset}
+            config={config}
+            onCreatePedido={crearPedidoLocal}
+            onUpdatePedidoEstado={cambiarEstadoPedido}
+          />
+        )
       case "negociaciones":
-        return <NegociacionesView dataset={dataset} />
+        return (
+          <NegociacionesView
+            dataset={dataset}
+            onDecision={decidirNegociacionLocal}
+          />
+        )
       case "condiciones":
-        return <CondicionesView dataset={dataset} />
+        return (
+          <CondicionesView
+            dataset={dataset}
+            onUpdateCondicion={actualizarCondicionComercial}
+          />
+        )
       case "configuraciones":
         return (
           <ConfiguracionesView

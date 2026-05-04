@@ -14,6 +14,8 @@ import type {
   ConfiguracionLocal,
   PedidoDraft,
   PedidoEstado,
+  PedidoEstadoUpdate,
+  PedidoLocalInput,
   ResultadoSimulacionPedido,
 } from "@/domain/types"
 import { cn } from "@/lib/utils"
@@ -29,9 +31,13 @@ const filtros: Array<PedidoEstado | "Todos"> = [
 export function PedidosView({
   dataset,
   config,
+  onCreatePedido,
+  onUpdatePedidoEstado,
 }: {
   dataset: AyroDataset
   config: ConfiguracionLocal
+  onCreatePedido: (input: PedidoLocalInput) => void
+  onUpdatePedidoEstado: (input: PedidoEstadoUpdate) => void
 }) {
   const [estado, setEstado] = useState<PedidoEstado | "Todos">("Todos")
   const [draft, setDraft] = useState<PedidoDraft>(() => ({
@@ -87,6 +93,40 @@ export function PedidosView({
                 : "Revisar excepcion comercial",
           }
         : undefined,
+    })
+  }
+
+  const crearPedido = () => {
+    if (!resultado) {
+      return
+    }
+
+    const estadoInicial =
+      resultado.evaluacion.estadoSugerido === "Confirmado"
+        ? "Confirmado"
+        : resultado.evaluacion.estadoSugerido === "Negociacion"
+          ? "Negociacion"
+          : "Armado"
+
+    onCreatePedido({
+      ...resultado.draft,
+      estadoInicial,
+    })
+    setResultado(null)
+  }
+
+  const actualizarEstado = (pedidoId: string, estadoDestino: PedidoEstado) => {
+    const pedido = dataset.pedidos.find((item) => item.id === pedidoId)
+
+    if (!pedido || pedido.estado === estadoDestino) {
+      return
+    }
+
+    onUpdatePedidoEstado({
+      pedidoId,
+      estado: estadoDestino,
+      responsable: pedido.responsable,
+      detalle: `Pedido movido de ${pedido.estado} a ${estadoDestino}.`,
     })
   }
 
@@ -265,6 +305,15 @@ export function PedidosView({
             >
               Simular evaluacion
             </Button>
+            {resultado ? (
+              <Button
+                type="button"
+                onClick={crearPedido}
+                className="ml-2 mt-5 h-9 rounded-lg border border-emerald-300/30 bg-emerald-300/15 px-3 text-sm font-semibold text-emerald-100 hover:bg-emerald-300/20"
+              >
+                Crear pedido local
+              </Button>
+            ) : null}
           </div>
         </CardContent>
       </Card>
@@ -323,6 +372,26 @@ export function PedidosView({
               <p className="rounded-lg border border-white/10 bg-slate-950/60 p-3 text-sm leading-5 text-slate-400">
                 {pedido.observaciones}
               </p>
+              <div className="flex flex-wrap gap-2 border-t border-white/10 pt-3">
+                {filtros
+                  .filter((filtro): filtro is PedidoEstado => filtro !== "Todos")
+                  .map((estadoDestino) => (
+                    <Button
+                      key={estadoDestino}
+                      type="button"
+                      disabled={pedido.estado === estadoDestino}
+                      onClick={() => actualizarEstado(pedido.id, estadoDestino)}
+                      className={cn(
+                        "h-8 rounded-lg border px-2.5 text-xs font-semibold",
+                        pedido.estado === estadoDestino
+                          ? "cursor-default border-cyan-300/30 bg-cyan-300/15 text-cyan-100"
+                          : "border-white/10 bg-white/[0.03] text-slate-300 hover:bg-white/[0.06]"
+                      )}
+                    >
+                      {estadoDestino}
+                    </Button>
+                  ))}
+              </div>
             </CardContent>
           </Card>
         ))}
