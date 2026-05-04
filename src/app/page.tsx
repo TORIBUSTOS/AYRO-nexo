@@ -6,6 +6,7 @@ import { AyroShell } from "@/components/ayro/ayro-shell"
 import { getAyroDataset } from "@/data/source"
 import { ayroSettings } from "@/domain/settings"
 import type { AyroViewId, ConfiguracionLocal } from "@/domain/types"
+import { ConfiguracionesView } from "@/features/configuraciones/configuraciones-view"
 import { DashboardView } from "@/features/dashboard/dashboard-view"
 
 const initialConfig: ConfiguracionLocal = {
@@ -32,7 +33,7 @@ const initialConfig: ConfiguracionLocal = {
 
 export default function Home() {
   const [activeView, setActiveView] = useState<AyroViewId>("dashboard")
-  const [config] = useState<ConfiguracionLocal>(initialConfig)
+  const [config, setConfig] = useState<ConfiguracionLocal>(initialConfig)
   const dataset = useMemo(() => getAyroDataset(), [])
 
   const activePackages = useMemo(
@@ -43,13 +44,30 @@ export default function Home() {
     [dataset]
   )
 
+  const renderView = () => {
+    switch (activeView) {
+      case "configuraciones":
+        return (
+          <ConfiguracionesView config={config} onConfigChange={setConfig} />
+        )
+      case "dashboard":
+      case "clientes":
+      case "pedidos":
+      case "negociaciones":
+      case "condiciones":
+      case "historial":
+      default:
+        return <DashboardView dataset={dataset} config={config} />
+    }
+  }
+
   return (
     <AyroShell
       activeView={activeView}
       activePackages={activePackages}
       onNavigate={setActiveView}
     >
-      <DashboardView dataset={dataset} config={config} />
+      {renderView()}
     </AyroShell>
   )
 }
