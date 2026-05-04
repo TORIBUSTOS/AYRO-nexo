@@ -103,6 +103,7 @@ export function HistorialView({
       <div className="space-y-3">
         {historialFiltrado.map((evento) => {
           const entidad = entidadConfig[evento.entidad]
+          const esLocal = evento.id.startsWith("evt_local_")
 
           return (
             <Card
@@ -128,14 +129,21 @@ export function HistorialView({
                           {evento.detalle}
                         </p>
                       </div>
-                      <span
-                        className={cn(
-                          "w-fit rounded-md border px-2.5 py-1 text-xs font-semibold",
-                          entidad.className
-                        )}
-                      >
-                        {entidad.label}
-                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {esLocal ? (
+                          <span className="w-fit rounded-md border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-1 text-xs font-semibold text-emerald-100">
+                            Local
+                          </span>
+                        ) : null}
+                        <span
+                          className={cn(
+                            "w-fit rounded-md border px-2.5 py-1 text-xs font-semibold",
+                            entidad.className
+                          )}
+                        >
+                          {entidad.label}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
