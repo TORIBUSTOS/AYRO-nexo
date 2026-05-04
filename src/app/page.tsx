@@ -7,8 +7,10 @@ import { getAyroDataset } from "@/data/source"
 import { ayroSettings } from "@/domain/settings"
 import type { AyroViewId, ConfiguracionLocal } from "@/domain/types"
 import { ClientesView } from "@/features/clientes/clientes-view"
+import { CondicionesView } from "@/features/condiciones/condiciones-view"
 import { ConfiguracionesView } from "@/features/configuraciones/configuraciones-view"
 import { DashboardView } from "@/features/dashboard/dashboard-view"
+import { NegociacionesView } from "@/features/negociaciones/negociaciones-view"
 import { PedidosView } from "@/features/pedidos/pedidos-view"
 
 const initialConfig: ConfiguracionLocal = {
@@ -52,13 +54,15 @@ export default function Home() {
         return <ClientesView dataset={dataset} />
       case "pedidos":
         return <PedidosView dataset={dataset} config={config} />
+      case "negociaciones":
+        return <NegociacionesView dataset={dataset} />
+      case "condiciones":
+        return <CondicionesView dataset={dataset} />
       case "configuraciones":
         return (
           <ConfiguracionesView config={config} onConfigChange={setConfig} />
         )
       case "dashboard":
-      case "negociaciones":
-      case "condiciones":
       case "historial":
       default:
         return <DashboardView dataset={dataset} config={config} />
