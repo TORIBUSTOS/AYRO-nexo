@@ -90,9 +90,25 @@ export type EvaluacionPedido = {
 export type ConfiguracionLocal = {
   responsables: string[]
   pedidoSinRespuestaHoras: number
+  clienteDormidoDias: number
   estadosPedido: Record<PedidoEstado, string>
   prioridades: Record<PrioridadOperativa, string>
   severidades: Record<SeveridadAlerta, string>
+}
+
+export type AyroDemoState = {
+  dataset: AyroDataset
+  config: ConfiguracionLocal
+  version: number
+  updatedAt: string
+}
+
+export type AyroPersistenceInfo = {
+  mode: "localStorage"
+  label: string
+  sourceLabel: string
+  backendLabel: string
+  updatedAt: string
 }
 
 export type PedidoDraft = {

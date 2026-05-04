@@ -115,7 +115,13 @@ export function getClienteNombre(dataset: AyroDataset, clienteId: string) {
   )
 }
 
-export function getClientesResumen(dataset: AyroDataset) {
+export function getClientesResumen(
+  dataset: AyroDataset,
+  config?: ConfiguracionLocal
+) {
+  const fechaReferencia = getFechaReferenciaOperativa(dataset.pedidos)
+  const umbralDormido = config?.clienteDormidoDias ?? 30
+
   return dataset.clientes.map((cliente) => {
     const pedidos = dataset.pedidos.filter(
       (pedido) => pedido.clienteId === cliente.id
@@ -123,6 +129,12 @@ export function getClientesResumen(dataset: AyroDataset) {
     const pedidosActivos = pedidos.filter(
       (pedido) => pedido.estado !== "Entregado"
     )
+    const ultimoPedido = getUltimoPedido(pedidos)
+    const diasDesdeUltimoPedido = ultimoPedido
+      ? getDiasEntreFechas(ultimoPedido.fecha, fechaReferencia)
+      : null
+    const clienteDormido =
+      diasDesdeUltimoPedido !== null && diasDesdeUltimoPedido >= umbralDormido
 
     return {
       cliente,
@@ -135,8 +147,56 @@ export function getClientesResumen(dataset: AyroDataset) {
       tieneCondiciones:
         cliente.descuentoPermitido !== null &&
         cliente.plazoPermitidoDias !== null,
+      ultimoPedido,
+      diasDesdeUltimoPedido,
+      clienteDormido,
+      accionSeguimiento: clienteDormido
+        ? "Contactar para reactivar compra"
+        : "Mantener seguimiento regular",
     }
   })
+}
+
+function getUltimoPedido(pedidos: Pedido[]) {
+  return pedidos.reduce<Pedido | null>((ultimo, pedido) => {
+    if (!ultimo || pedido.fecha > ultimo.fecha) {
+      return pedido
+    }
+
+    return ultimo
+  }, null)
+}
+
+function getFechaReferenciaOperativa(pedidos: Pedido[]) {
+  const hoy = formatDateOnly(new Date())
+  const ultimaFechaPedido = pedidos.reduce<string | null>((ultima, pedido) => {
+    if (!ultima || pedido.fecha > ultima) {
+      return pedido.fecha
+    }
+
+    return ultima
+  }, null)
+
+  return ultimaFechaPedido && ultimaFechaPedido > hoy ? ultimaFechaPedido : hoy
+}
+
+function getDiasEntreFechas(fechaInicial: string, fechaFinal: string) {
+  const inicio = Date.parse(`${fechaInicial}T00:00:00`)
+  const fin = Date.parse(`${fechaFinal}T00:00:00`)
+
+  if (Number.isNaN(inicio) || Number.isNaN(fin)) {
+    return 0
+  }
+
+  return Math.max(0, Math.floor((fin - inicio) / 86_400_000))
+}
+
+function formatDateOnly(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0")
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+    date.getDate()
+  )}`
 }
 
 export function getHistorialReciente(historial: EventoHistorial[]) {

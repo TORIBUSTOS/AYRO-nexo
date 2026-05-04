@@ -70,7 +70,8 @@ export const ayroSettings = {
     onlineLabel: "Online",
     pulseTitle: "Pulso operativo",
     activePackagesLabel: "Bultos activos",
-    localDataNote: "Vista local con datos mockeados. Sin backend ni persistencia.",
+    localDataNote:
+      "Demo local persistente con datos mockeados. Sin backend real todavia.",
     kanbanTitle: "Pedidos por estado",
     kanbanDescription: "Kanban operativo con datos locales.",
     mockOrdersLabel: "pedidos mock",
@@ -125,10 +126,10 @@ export const ayroSettings = {
     },
   },
   configuracionLocal: {
-    title: "Configuracion local simulada",
+    title: "Configuracion local persistente",
     description:
-      "Estos valores todavia no persisten. Preparan el modelo configurable del sistema.",
-    noPersistenceLabel: "Sin persistencia",
+      "Estos valores persisten en este navegador y preparan el modelo configurable del sistema.",
+    noPersistenceLabel: "Persistencia local activa",
     thresholdToggleLabel: "Alternar umbral 24h/48h",
   },
   operational: {
@@ -138,6 +139,7 @@ export const ayroSettings = {
       descuentoPermitido: 0,
       plazoPermitidoDias: 0,
     },
+    clienteDormidoDias: 30,
   },
   metrics: [
     {

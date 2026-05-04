@@ -17,11 +17,12 @@ AYRO NEXO busca ordenar la operacion comercial desde cliente, pedido y negociaci
 - Selectors del dashboard creados en `src/domain/selectors.ts`.
 - Configuraciones base del sistema creadas en `src/domain/settings.ts` y `src/domain/ui-config.ts`.
 - Dashboard conectado a datos, selectors y configuracion reutilizable.
+- Demo operativa persistente en navegador mediante adapter local reemplazable.
 - QA visual desktop/mobile completado contra el blueprint.
 
 ## Estrategia MVP
 
-El MVP es frontend-first: validar comportamiento, reglas y flujo operativo con datos mock/locales antes de construir backend, base de datos o autenticacion.
+El MVP es frontend-first: validar comportamiento, reglas y flujo operativo con datos mock/locales persistentes antes de construir backend, base de datos o autenticacion.
 
 No forman parte del primer ciclo:
 
@@ -30,7 +31,8 @@ No forman parte del primer ciclo:
 - autenticacion
 - APIs externas
 - backend propio
-- persistencia
+
+La persistencia actual es solo de demo: `localStorage` en el navegador. No reemplaza backend real, pero permite validar el flujo con continuidad entre recargas.
 
 ## Regla importante de UI
 
@@ -113,10 +115,33 @@ Completado:
 9. Reset de datos locales y configuracion inicial desde Configuraciones.
 10. QA de lint, build y frontera de datos mock.
 
-Sprint 4 posible:
+Sprint 4: Demo operativa persistente.
 
-1. Decidir persistencia real: backend minimo, API propia o base de datos.
-2. Mantener fuera de alcance hasta validar flujo comercial completo.
+Completado:
+
+1. Persistencia local en navegador para dataset y configuracion.
+2. Adapter `src/data/ayro-demo-repository.ts` con contrato reemplazable por backend.
+3. Hook `src/data/use-ayro-demo-state.ts` para aislar persistencia de la UI.
+4. Configuracion inicial movida a `src/domain/default-config.ts`.
+5. Vista Configuraciones muestra fuente, modo de persistencia y ultima actualizacion.
+
+Siguiente fase posible:
+
+1. Implementar backend real detras del contrato de repositorio.
+2. Reemplazar `localStorage` por API/base de datos sin reescribir vistas.
+3. Agregar validaciones, roles y auditoria solo cuando el flujo comercial este validado.
+
+## Persistencia y migracion backend
+
+La UI no lee ni escribe `localStorage` directamente.
+
+Frontera actual:
+
+- `src/data/ayro-demo-repository.ts`: carga, guarda y resetea estado de demo.
+- `src/data/use-ayro-demo-state.ts`: conecta React con el repositorio.
+- `src/app/page.tsx`: consume `dataset`, `config` y callbacks, sin saber como persisten.
+
+Para migrar a backend real, el cambio esperado es crear un repositorio remoto con el mismo contrato operativo y mantener las vistas recibiendo props/callbacks.
 
 ## Comandos
 

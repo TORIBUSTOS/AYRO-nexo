@@ -105,4 +105,17 @@ export const pedidos: Pedido[] = [
     plazoSolicitadoDias: 14,
     ultimaRespuestaHoras: 0,
   },
+  {
+    id: "ped_009",
+    clienteId: "cli_006",
+    bultos: 6,
+    fecha: "2026-03-18",
+    estado: "Entregado",
+    prioridad: "media",
+    responsable: "Martin",
+    observaciones: "Ultima compra historica, sin reposicion posterior.",
+    descuentoSolicitado: 4,
+    plazoSolicitadoDias: 7,
+    ultimaRespuestaHoras: 0,
+  },
 ]

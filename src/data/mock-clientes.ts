@@ -46,4 +46,13 @@ export const clientes: Cliente[] = [
     descuentoPermitido: 5,
     plazoPermitidoDias: 15,
   },
+  {
+    id: "cli_006",
+    nombre: "Almacen Don Luis",
+    estado: "observado",
+    responsable: "Martin",
+    datosOperativos: "Cliente historico sin pedidos recientes.",
+    descuentoPermitido: 6,
+    plazoPermitidoDias: 10,
+  },
 ]

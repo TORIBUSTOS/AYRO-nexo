@@ -4,7 +4,7 @@
 
 **AYRO NEXO** es un sistema operativo comercial modular para ordenar la operación de AYRO desde el cliente hasta el pedido, negociación, aprobación, confirmación, entrega y seguimiento.
 
-La estrategia recomendada es **frontend-first**: validar el flujo comercial con datos mock/locales y reglas simuladas antes de construir backend, base de datos o autenticación.
+La estrategia recomendada es **frontend-first**: validar el flujo comercial con datos mock/locales persistentes y reglas simuladas antes de construir backend, base de datos o autenticación.
 
 La prioridad del MVP no es tener una app completa, sino confirmar que el sistema responde claramente:
 
@@ -19,6 +19,7 @@ La prioridad del MVP no es tener una app completa, sino confirmar que el sistema
 
 - **Nombre**: AYRO NEXO
 - **Tipo de Sistema**: Sistema operativo comercial modular, frontend-first en etapa MVP.
+- **Estado Demo**: Operativa persistente en navegador, con adapter local reemplazable por backend real.
 - **Propósito Principal**: Ordenar la operación comercial de AYRO, conectando clientes, pedidos, negociaciones, condiciones comerciales, responsables, alertas e historial en una vista operativa única.
 - **Usuarios/Stakeholders**:
   - Operación comercial AYRO

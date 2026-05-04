@@ -6,14 +6,19 @@ import { KeyValueRow } from "@/components/ayro/shared"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ayroSettings } from "@/domain/settings"
-import type { ConfiguracionLocal } from "@/domain/types"
+import type {
+  AyroPersistenceInfo,
+  ConfiguracionLocal,
+} from "@/domain/types"
 
 export function ConfiguracionesView({
   config,
+  persistence,
   onConfigChange,
   onResetLocalData,
 }: {
   config: ConfiguracionLocal
+  persistence: AyroPersistenceInfo
   onConfigChange: Dispatch<SetStateAction<ConfiguracionLocal>>
   onResetLocalData?: () => void
 }) {
@@ -31,7 +36,7 @@ export function ConfiguracionesView({
               </p>
             </div>
             <span className="w-fit rounded-md border border-amber-300/30 bg-amber-300/10 px-2.5 py-1 text-xs font-medium text-amber-100">
-              {ayroSettings.configuracionLocal.noPersistenceLabel}
+              {persistence.label}
             </span>
           </div>
         </CardHeader>
@@ -69,6 +74,38 @@ export function ConfiguracionesView({
             </div>
           </div>
 
+          <div className="rounded-lg border border-white/10 bg-slate-950/60 p-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  Umbral cliente dormido
+                </p>
+                <p className="mt-1 text-sm leading-5 text-slate-400">
+                  Marca clientes sin pedidos recientes para seguimiento
+                  comercial.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="rounded-lg border border-amber-300/25 bg-amber-300/10 px-3 py-2 text-sm font-semibold text-amber-100">
+                  {config.clienteDormidoDias} dias
+                </span>
+                <Button
+                  type="button"
+                  onClick={() =>
+                    onConfigChange((current) => ({
+                      ...current,
+                      clienteDormidoDias:
+                        current.clienteDormidoDias === 30 ? 45 : 30,
+                    }))
+                  }
+                  className="h-9 rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 text-sm font-semibold text-amber-100 hover:bg-amber-300/15"
+                >
+                  Alternar umbral 30/45 dias
+                </Button>
+              </div>
+            </div>
+          </div>
+
           <div>
             <p className="text-sm font-semibold text-white">
               Responsables disponibles
@@ -91,8 +128,8 @@ export function ConfiguracionesView({
                 Reset local de trabajo
               </p>
               <p className="mt-1 text-sm leading-5 text-rose-100/80">
-                Restaura datos mock y configuracion inicial. No afecta ningun
-                backend porque todavia no hay persistencia.
+                Restaura datos mock y configuracion inicial. Limpia solo la
+                demo local guardada en este navegador.
               </p>
               <Button
                 type="button"
@@ -128,17 +165,25 @@ export function ConfiguracionesView({
           />
 
           <div className="space-y-3 rounded-lg border border-white/10 bg-slate-950/60 p-4">
+            <KeyValueRow label="Persistencia" value={persistence.label} />
+            <KeyValueRow label="Fuente actual" value={persistence.sourceLabel} />
+            <KeyValueRow label="Backend" value={persistence.backendLabel} />
             <KeyValueRow
-              label="Persistencia"
-              value={ayroSettings.configuracionLocal.noPersistenceLabel}
+              label="Ultima actualizacion"
+              value={formatPersistenceDate(persistence.updatedAt)}
             />
-            <KeyValueRow label="Fuente actual" value="Dataset local mock" />
-            <KeyValueRow label="Backend" value="Fuera de Sprint 2" />
           </div>
         </CardContent>
       </Card>
     </section>
   )
+}
+
+function formatPersistenceDate(value: string) {
+  return new Intl.DateTimeFormat("es-AR", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date(value))
 }
 
 function ConfigGroup({ title, values }: { title: string; values: string[] }) {

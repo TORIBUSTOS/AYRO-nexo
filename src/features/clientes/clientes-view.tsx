@@ -15,6 +15,7 @@ import type {
   EstadoCliente,
   Pedido,
 } from "@/domain/types"
+import { cn } from "@/lib/utils"
 
 const estadosCliente: EstadoCliente[] = ["activo", "observado", "inactivo"]
 
@@ -27,7 +28,7 @@ export function ClientesView({
   config: ConfiguracionLocal
   onUpdateCliente: (input: ClienteUpdate) => void
 }) {
-  const clientes = getClientesResumen(dataset)
+  const clientes = getClientesResumen(dataset, config)
 
   return (
     <section className="mt-6 grid gap-4 xl:grid-cols-2">
@@ -38,6 +39,10 @@ export function ClientesView({
           pedidosActivos,
           totalBultosActivos,
           tieneCondiciones,
+          ultimoPedido,
+          diasDesdeUltimoPedido,
+          clienteDormido,
+          accionSeguimiento,
         }) => (
           <ClienteCard
             key={`${cliente.id}-${cliente.estado}-${cliente.responsable}`}
@@ -47,6 +52,10 @@ export function ClientesView({
             pedidosActivos={pedidosActivos}
             totalBultosActivos={totalBultosActivos}
             tieneCondiciones={tieneCondiciones}
+            ultimoPedido={ultimoPedido}
+            diasDesdeUltimoPedido={diasDesdeUltimoPedido}
+            clienteDormido={clienteDormido}
+            accionSeguimiento={accionSeguimiento}
             onUpdateCliente={onUpdateCliente}
           />
         )
@@ -62,6 +71,10 @@ function ClienteCard({
   pedidosActivos,
   totalBultosActivos,
   tieneCondiciones,
+  ultimoPedido,
+  diasDesdeUltimoPedido,
+  clienteDormido,
+  accionSeguimiento,
   onUpdateCliente,
 }: {
   cliente: Cliente
@@ -70,6 +83,10 @@ function ClienteCard({
   pedidosActivos: number
   totalBultosActivos: number
   tieneCondiciones: boolean
+  ultimoPedido: Pedido | null
+  diasDesdeUltimoPedido: number | null
+  clienteDormido: boolean
+  accionSeguimiento: string
   onUpdateCliente: (input: ClienteUpdate) => void
 }) {
   const [estado, setEstado] = useState<EstadoCliente>(cliente.estado)
@@ -115,6 +132,18 @@ function ClienteCard({
           <KeyValueRow label="Pedidos activos" value={pedidosActivos} />
           <KeyValueRow label="Bultos activos" value={totalBultosActivos} />
           <KeyValueRow
+            label="Ultimo pedido"
+            value={ultimoPedido ? ultimoPedido.fecha : "Sin pedidos"}
+          />
+          <KeyValueRow
+            label="Dias sin pedido"
+            value={
+              diasDesdeUltimoPedido === null
+                ? "Sin historial"
+                : `${diasDesdeUltimoPedido} dias`
+            }
+          />
+          <KeyValueRow
             label="Descuento permitido"
             value={
               cliente.descuentoPermitido === null
@@ -130,6 +159,43 @@ function ClienteCard({
                 : `${cliente.plazoPermitidoDias} dias`
             }
           />
+        </div>
+
+        <div
+          className={cn(
+            "rounded-lg border p-4",
+            clienteDormido
+              ? "border-amber-300/25 bg-amber-300/10"
+              : "border-emerald-300/20 bg-emerald-300/10"
+          )}
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p
+                className={cn(
+                  "text-sm font-semibold",
+                  clienteDormido ? "text-amber-100" : "text-emerald-100"
+                )}
+              >
+                {clienteDormido ? "Cliente dormido" : "Seguimiento al dia"}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-300">
+                {accionSeguimiento}
+              </p>
+            </div>
+            <span
+              className={cn(
+                "w-fit rounded-md border px-2.5 py-1 text-xs font-semibold",
+                clienteDormido
+                  ? "border-amber-300/30 bg-amber-300/10 text-amber-100"
+                  : "border-emerald-300/30 bg-emerald-300/10 text-emerald-100"
+              )}
+            >
+              {diasDesdeUltimoPedido === null
+                ? "Sin historial"
+                : `${diasDesdeUltimoPedido} dias`}
+            </span>
+          </div>
         </div>
 
         <div className="grid gap-3 rounded-lg border border-white/10 bg-white/[0.025] p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">

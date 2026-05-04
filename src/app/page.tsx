@@ -3,22 +3,19 @@
 import { useMemo, useState } from "react"
 
 import { AyroShell } from "@/components/ayro/ayro-shell"
-import { getAyroDataset } from "@/data/source"
+import { useAyroDemoState } from "@/data/use-ayro-demo-state"
 import {
   createPedidoLocal,
   decidirNegociacion,
-  resetDataset,
   updateCliente,
   updateCondicionComercial,
   updatePedidoEstado,
 } from "@/domain/local-operations"
-import { ayroSettings } from "@/domain/settings"
+import { getDefaultConfig } from "@/domain/default-config"
 import type {
-  AyroDataset,
   AyroViewId,
   ClienteUpdate,
   CondicionComercialUpdate,
-  ConfiguracionLocal,
   NegociacionDecisionInput,
   PedidoEstadoUpdate,
   PedidoLocalInput,
@@ -31,32 +28,18 @@ import { HistorialView } from "@/features/historial/historial-view"
 import { NegociacionesView } from "@/features/negociaciones/negociaciones-view"
 import { PedidosView } from "@/features/pedidos/pedidos-view"
 
-const initialConfig: ConfiguracionLocal = {
-  responsables: ayroSettings.operational.responsables,
-  pedidoSinRespuestaHoras: ayroSettings.operational.pedidoSinRespuestaHoras,
-  estadosPedido: {
-    Armado: ayroSettings.pedidoEstados.Armado.label,
-    Negociacion: ayroSettings.pedidoEstados.Negociacion.label,
-    Confirmado: ayroSettings.pedidoEstados.Confirmado.label,
-    Entregado: ayroSettings.pedidoEstados.Entregado.label,
-  },
-  prioridades: {
-    alta: ayroSettings.prioridades.alta.label,
-    media: ayroSettings.prioridades.media.label,
-    baja: ayroSettings.prioridades.baja.label,
-  },
-  severidades: {
-    critica: ayroSettings.severidades.critica.label,
-    alta: ayroSettings.severidades.alta.label,
-    media: ayroSettings.severidades.media.label,
-    baja: ayroSettings.severidades.baja.label,
-  },
-}
+const initialConfig = getDefaultConfig()
 
 export default function Home() {
   const [activeView, setActiveView] = useState<AyroViewId>("dashboard")
-  const [config, setConfig] = useState<ConfiguracionLocal>(initialConfig)
-  const [dataset, setDataset] = useState<AyroDataset>(() => getAyroDataset())
+  const {
+    dataset,
+    config,
+    persistence,
+    setDataset,
+    setConfig,
+    resetDemoState,
+  } = useAyroDemoState(initialConfig)
 
   const activePackages = useMemo(
     () =>
@@ -67,8 +50,7 @@ export default function Home() {
   )
 
   const resetearDatosLocales = () => {
-    setDataset(resetDataset())
-    setConfig(initialConfig)
+    resetDemoState()
   }
 
   const crearPedidoLocal = (input: PedidoLocalInput) => {
@@ -128,6 +110,7 @@ export default function Home() {
         return (
           <ConfiguracionesView
             config={config}
+            persistence={persistence}
             onConfigChange={setConfig}
             onResetLocalData={resetearDatosLocales}
           />
