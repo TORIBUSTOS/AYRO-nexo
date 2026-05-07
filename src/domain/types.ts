@@ -71,6 +71,9 @@ export type AlertaOperativa = {
     | "cliente-sin-condiciones"
     | "pedido-sin-respuesta"
     | "pedido-bloqueado"
+    | "cliente-dormido"
+    | "oportunidad-reposicion"
+    | "seguimiento-comercial"
   titulo: string
   detalle: string
   severidad: SeveridadAlerta
@@ -159,15 +162,24 @@ export type NegociacionDecisionInput = {
   comentario: string
 }
 
+export type CategoriaAccionOperativa =
+  | "cierre"
+  | "reposicion"
+  | "reactivacion"
+  | "desbloqueo"
+  | "administracion"
+
 export type AccionOperativa = {
   id: string
   titulo: string
   detalle: string
   prioridad: PrioridadOperativa
   responsable: string
-  origen: "alerta" | "negociacion" | "pedido"
+  origen: "alerta" | "negociacion" | "pedido" | "cliente"
   entidadId: string
   accionSugerida: string
+  categoria: CategoriaAccionOperativa
+  puntajeComercial: number
 }
 
 export type AyroDataset = {
