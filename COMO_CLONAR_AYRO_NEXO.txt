@@ -1,0 +1,101 @@
+AYRO NEXO - COMO CLONAR Y EJECUTAR EN WINDOWS
+==============================================
+
+Requisitos:
+
+1. Tener Git instalado.
+   Descargar desde:
+   https://git-scm.com/downloads
+
+2. Tener Node.js LTS instalado.
+   Descargar desde:
+   https://nodejs.org/
+
+
+PASO 1 - Abrir una terminal
+---------------------------
+
+Abrir PowerShell o CMD en la carpeta donde quieras guardar el proyecto.
+
+Ejemplo:
+
+cd "C:\Users\TU_USUARIO\OneDrive\Escritorio"
+
+
+PASO 2 - Clonar el repositorio
+------------------------------
+
+Ejecutar:
+
+git clone https://github.com/TORIBUSTOS/AYRO-nexo.git
+
+
+PASO 3 - Entrar al proyecto
+---------------------------
+
+Ejecutar:
+
+cd AYRO-nexo
+
+
+PASO 4 - Instalar y verificar dependencias
+------------------------------------------
+
+Ejecutar:
+
+setup-ayro-nexo.bat
+
+Este script:
+
+- verifica Node.js;
+- verifica npm;
+- instala dependencias con npm install;
+- corre npm run build para confirmar que el proyecto compila.
+
+
+PASO 5 - Iniciar la app
+-----------------------
+
+Ejecutar:
+
+iniciar-ayro-nexo.bat
+
+Este script:
+
+- inicia el servidor local;
+- abre Google Chrome en:
+
+http://localhost:3000
+
+
+COMANDOS UTILES
+---------------
+
+Actualizar el repo:
+
+git pull origin main
+
+Instalar dependencias manualmente:
+
+npm install
+
+Iniciar manualmente:
+
+npm run dev
+
+Verificar lint:
+
+npm run lint
+
+Verificar build:
+
+npm run build
+
+
+NOTAS
+-----
+
+- La demo actual persiste datos en el navegador con localStorage.
+- No hay backend real todavia.
+- No subir archivos Excel, CSV ni datos reales sensibles al repo.
+- Los archivos reales privados deben quedar fuera del repositorio.
