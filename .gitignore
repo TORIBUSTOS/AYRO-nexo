@@ -39,3 +39,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AYRO - datos reales locales / no subir al repo publico
+*.xlsx
+*.xls
+*.xlsm
+*.xlsb
+*.csv
+*.tsv
+*.ods
+*.numbers
+.local/
+data/raw/
+data/private/
+imports/raw/
+imports/private/
+imports/processed/
+sprint45_patch/
+sprint45_patch.zip
