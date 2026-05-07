@@ -13,6 +13,10 @@
 
 - `sprints/sprint-4-5-transmutacion.md`
 
+## Demo
+
+- `demo/README.md`
+
 ## Arquitectura
 
 - `architecture/frontend-architecture.md`
